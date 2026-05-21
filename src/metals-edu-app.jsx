@@ -12,7 +12,7 @@ const CSS = `
 :root {
   --bg:#0d0f12; --s1:#141720; --s2:#1c2030; --bd:#2a2f3d;
   --or:#f07820; --am:#f0a820; --st:#8fa0b8; --tx:#dce4ef; --mu:#6b7a90;
-  --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040;
+  --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040; --cp:#b87333;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-height:100vh;}
@@ -44,6 +44,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .tml{background:rgba(160,96,208,.12);color:var(--ml);border:1px solid rgba(160,96,208,.3);}
 .tgn{background:rgba(64,200,112,.12);color:var(--gn);border:1px solid rgba(64,200,112,.3);}
 .tam{background:rgba(240,168,32,.12);color:var(--am);border:1px solid rgba(240,168,32,.3);}
+.tcp{background:rgba(184,115,51,.12);color:var(--cp);border:1px solid rgba(184,115,51,.3);}
 .stitle{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
 
 /* CARDS */
@@ -52,12 +53,14 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .mcard.ferrous::before{background:var(--fe);}
 .mcard.nonferrous::before{background:var(--nf);}
+.mcard.copper_alloy::before{background:var(--cp);}
 .mcard:hover{border-color:rgba(240,120,32,.35);background:var(--s2);}
 .mcard.exp{border-color:var(--or);}
 .ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.45rem;}
 .msym{font-family:'Share Tech Mono',monospace;font-size:1.45rem;font-weight:700;line-height:1;}
 .mcard.ferrous .msym{color:var(--fe);}
 .mcard.nonferrous .msym{color:var(--nf);}
+.mcard.copper_alloy .msym{color:var(--cp);}
 .cbadge{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.1em;padding:2px 5px;border-radius:2px;text-transform:uppercase;}
 .mname{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.15rem;}
 .msub{font-size:.72rem;color:var(--mu);font-weight:300;margin-bottom:.6rem;}
@@ -344,7 +347,58 @@ const NONFERROUS = [
     micro:"molybdenum_grains" },
 ];
 
-const ALL_METALS = [...FERROUS, ...NONFERROUS];
+const COPPER_ALLOYS = [
+  { id:"brass", symbol:"Cu-Zn", name:"Brass (C26000)", subtitle:"Cartridge Brass 70/30", type:"copper_alloy",
+    desc:"The most widely used copper alloy: 70% copper, 30% zinc. Excellent cold-working ability, good strength, and a distinctive golden color. Named 'cartridge brass' for its use in ammunition casings.",
+    uses:["Ammunition Cartridges","Musical Instruments","Plumbing Fittings","Zippers","Radiator Cores","Decorative Hardware"],
+    properties:{"Copper Content":"70%","Zinc Content":"30%","Tensile Strength":"300–900 MPa","Melting Point":"915–955°C"},
+    grades:"C26000 (70/30): deep drawing. C27000 (65/35): yellow brass, hardware. C28000 (60/40): Muntz metal, hot working. C22000 (90/10): commercial bronze.",
+    millRole:"Brass is processed in specialty non-ferrous rolling mills using multiple cold-reduction passes with intermediate annealing. Hot-dip galvanizing tanks use brass fittings throughout due to zinc compatibility.",
+    studentNote:"Brass's gold color comes from the zinc — pure copper is reddish-orange, but adding zinc shifts it toward yellow. More zinc = more yellow/greenish.",
+    micro:"brass_grains" },
+  { id:"phosphor-bronze", symbol:"Cu-Sn", name:"Phosphor Bronze", subtitle:"Cu-Sn-P Spring Alloy", type:"copper_alloy",
+    desc:"Copper with 5% tin and up to 0.35% phosphorus. The phosphorus acts as a deoxidizer and strengthens the alloy. Outstanding spring properties, fatigue resistance, and corrosion resistance in seawater.",
+    uses:["Electrical Connectors","Springs","Bearings","Ship Propellers","Diaphragms","Musical Instrument Strings"],
+    properties:{"Copper Content":"~94.5%","Tin Content":"~5%","Tensile Strength":"300–900 MPa","Fatigue Resistance":"Excellent"},
+    grades:"C51000 (5% Sn): spring wire. C52100 (8% Sn): heavy duty springs. C54400 (4% Sn + Pb): free-machining bearings. C90300: tin bronze castings.",
+    millRole:"Phosphor bronze strip is drawn and annealed in specialty copper mills. Used in steel plant electrical panels, bus bar supports, and spring-loaded contact assemblies in instrumentation.",
+    studentNote:"Phosphor bronze is what makes guitar strings vibrant — the tin gives rigidity, phosphorus adds strength, and copper provides the warm tone.",
+    micro:"bronze_grains" },
+  { id:"cupronickel", symbol:"Cu-Ni", name:"Cupronickel (90/10)", subtitle:"Marine Grade Cu-Ni Alloy", type:"copper_alloy",
+    desc:"90% copper, 10% nickel with small additions of iron and manganese. Exceptional resistance to seawater corrosion and biofouling (marine organisms). Used wherever saltwater contact is unavoidable.",
+    uses:["Marine Heat Exchangers","Seawater Piping","Coinage","Desalination Plants","Ship Hull Cladding","Offshore Oil Platforms"],
+    properties:{"Copper Content":"90%","Nickel Content":"10%","Tensile Strength":"300–500 MPa","Seawater Corrosion":"Excellent"},
+    grades:"C70600 (90/10): standard marine. C71500 (70/30): higher strength marine. C72200 (Cr-addition): improved erosion resistance. Used in UNS C70600, DIN 2.0872.",
+    millRole:"Cupronickel tubes line the water-cooling circuits in continuous caster secondary cooling zones and are used in heat exchangers throughout the utility systems of a steel plant.",
+    studentNote:"Cupronickel is why coins like US quarters and dimes feel the way they do — the silvery appearance comes from nickel, but most of the metal is copper.",
+    micro:"cupronickel_grains" },
+  { id:"beryllium-copper", symbol:"Cu-Be", name:"Beryllium Copper", subtitle:"Highest Strength Cu Alloy", type:"copper_alloy",
+    desc:"The strongest of all copper alloys: 1.7–2% beryllium in copper. After age hardening, it reaches tensile strengths over 1400 MPa while maintaining 60%+ of copper's conductivity. Non-sparking and non-magnetic.",
+    uses:["High-Performance Springs","Aerospace Connectors","Non-Sparking Tools","Plastic Injection Molds","Precision Instruments","Oil/Gas Safety Tools"],
+    properties:{"Beryllium Content":"1.7–2%","Tensile Strength":"700–1400 MPa","Conductivity":"~60% IACS","Hardness":"HRC 36–42 (aged)"},
+    grades:"C17200 (1.9% Be): highest strength. C17000 (1.7% Be): balance of strength/conductivity. C17500 (0.6% Be + Co): high conductivity grade. Age hardened at 315°C.",
+    millRole:"Beryllium copper molds and tools are used in non-sparking maintenance work in flammable gas atmospheres. Also used in precision sensor springs for ladle weighing systems.",
+    studentNote:"Beryllium copper is a metallurgical paradox — it's as strong as steel but conducts electricity like a metal. The downside: beryllium dust is highly toxic, so machining requires strict safety controls.",
+    micro:"beryllium_copper_grains" },
+  { id:"aluminum-bronze", symbol:"Cu-Al", name:"Aluminum Bronze", subtitle:"High-Strength Wear-Resistant", type:"copper_alloy",
+    desc:"Copper alloyed with 5–12% aluminum, often with iron and nickel additions. Exceptional combination of strength, hardness, wear resistance, and corrosion resistance. Has a golden color resembling gold alloys.",
+    uses:["Gears & Worm Wheels","Marine Propellers","Pump Impellers","Valve Seats","Bushings & Bearings","Offshore Structural Components"],
+    properties:{"Aluminum Content":"5–12%","Tensile Strength":"500–900 MPa","Hardness":"130–250 HB","Corrosion":"Seawater Resistant"},
+    grades:"C62400 (11% Al): high strength. C63000 (Al-Ni): nickel-aluminum bronze for propellers. C95400: cast aluminum bronze. C63200: marine grade with Ni addition.",
+    millRole:"Aluminum bronze bushings and wear plates are used in continuous casting machine segments, pinch roll assemblies, and hot mill guide systems where corrosion and wear resistance are both needed.",
+    studentNote:"Aluminum bronze looks like gold and is used in 'gold' medals and award statuettes — it's not actually gold, but it has the appearance, corrosion resistance, and wear resistance at a fraction of the price.",
+    micro:"aluminum_bronze_grains" },
+  { id:"naval-brass", symbol:"Cu-Zn-Sn", name:"Naval Brass", subtitle:"Marine-Grade Brass C46400", type:"copper_alloy",
+    desc:"A dezincification-resistant brass: 60% copper, 39.25% zinc, 0.75% tin. The tin addition greatly improves resistance to the selective leaching of zinc (dezincification) in seawater environments.",
+    uses:["Marine Hardware","Condenser Plates","Pump Shafts","Valve Stems","Propeller Shafts","Rudder Bearings"],
+    properties:{"Copper Content":"60%","Zinc Content":"~39%","Tin Content":"0.75%","Dezincification":"Resistant"},
+    grades:"C46400 (Uninhibited Naval Brass). C46500 (+ As): arsenical, better dezincification resistance. C46700 (+ Sb): antimony inhibited. Hot-worked form is common.",
+    millRole:"Naval brass is specified for seawater-cooled heat exchangers and pump components in coastal steel plants. Also used for propeller shaft sleeves on ships delivering raw materials to port-side mills.",
+    studentNote:"Regular brass can 'dezincify' in seawater — the zinc leaches out, leaving a porous copper sponge. Adding even 0.75% tin prevents this, which is the entire reason Naval Brass exists.",
+    micro:"brass_grains" },
+];
+
+const ALL_METALS = [...FERROUS, ...NONFERROUS, ...COPPER_ALLOYS];
 
 const MILL_STEPS = [
   { id:"blast", icon:"🔥", name:"Blast Furnace", temp:"~1500°C", fullName:"Blast Furnace / EAF",
@@ -409,6 +463,11 @@ const QUIZ_POOL = [
   { q:"Which finishing line process electrolytically coats steel strip with tin for food cans?", metal:"tin", opts:["Galvanizing","Galvalume","Electrolytic tinning","Hard chrome plating"], ans:2, exp:"Electrolytic tinning lines deposit 1–11 g/m² of tin on cold-rolled strip through electrochemical deposition from a stannous sulfate bath — this creates tin plate for food cans." },
   { q:"What distinguishes wrought iron from cast iron and steel?", metal:"wrought-iron", opts:["Wrought iron has the highest carbon content","Wrought iron contains slag inclusions giving it a fibrous grain","Wrought iron is made in an electric arc furnace","Wrought iron cannot be welded"], ans:1, exp:"Wrought iron (<0.1% C) contains silicate slag inclusions that create a wood-like fibrous grain. This actually improves corrosion resistance compared to early steels." },
   { q:"Niobium (Nb) is classified as a microalloying element. What does it primarily do in HSLA steels?", metal:"alloy-steel", opts:["Acts as a powerful deoxidizer","Provides grain refinement and precipitation strengthening","Increases electrical conductivity","Replaces carbon for hardness"], ans:1, exp:"Niobium additions of 0.01–0.1% form fine NbC/NbN precipitates that pin austenite grain boundaries during rolling, producing finer ferrite grains and higher strength in as-rolled condition." },
+  { q:"What is 'cartridge brass' (C26000) and why is it called that?", metal:"brass", opts:["A brass coated with chromium for shine","70% Cu / 30% Zn alloy named for its use in ammunition cartridges","A pure copper sheet used in cartridge printing","60% Cu / 40% Zn alloy developed for military use"], ans:1, exp:"C26000 (70/30 brass) is named for ammunition cartridges — its excellent cold-working ability allows deep drawing into the precise cylindrical cup shape of a rifle or pistol cartridge without cracking." },
+  { q:"What does phosphorus addition achieve in phosphor bronze (C51000)?", metal:"phosphor-bronze", opts:["Increases zinc content for corrosion resistance","Acts as a deoxidizer and strengthens the alloy for better spring properties","Lowers the melting point for easier casting","Adds magnetic properties for sensor applications"], ans:1, exp:"Phosphorus (up to 0.35%) deoxidizes the melt and forms fine Cu₃P precipitates that enhance strength, hardness, and fatigue resistance — making phosphor bronze ideal for springs and connectors." },
+  { q:"Why is cupronickel (90/10) preferred over brass for marine heat exchangers?", metal:"cupronickel", opts:["Higher tensile strength than brass","Resistance to dezincification and biofouling in seawater","Lower cost due to less copper content","Magnetic properties for easy inspection"], ans:1, exp:"Cupronickel resists both dezincification (the selective leaching of zinc that weakens brass in seawater) and biofouling (marine organisms) — making it the standard material for seawater-cooled heat exchangers and condenser tubing." },
+  { q:"What makes beryllium copper (C17200) unique among copper alloys?", metal:"beryllium-copper", opts:["It is the most corrosion-resistant copper alloy","It achieves steel-level strength (>1400 MPa) after age hardening while remaining non-magnetic and non-sparking","It has the highest electrical conductivity of all copper alloys","It contains no beryllium — the name is historical"], ans:1, exp:"Beryllium copper age hardens through precipitation of CuBe and Cu₂Be intermetallics at ~315°C, reaching tensile strengths >1400 MPa — the highest of all copper alloys — while maintaining good conductivity, being non-magnetic, and non-sparking in explosive atmospheres." },
+  { q:"What is 'dezincification' and which copper alloy was specifically designed to resist it?", metal:"naval-brass", opts:["Oxidation of zinc on brass surfaces — resisted by phosphor bronze","Selective leaching of zinc from brass in seawater leaving a porous copper sponge — resisted by Naval Brass (C46400)","A heat treatment that removes zinc — resisted by aluminum bronze","Zinc evaporation during casting — resisted by cupronickel"], ans:1, exp:"Dezincification occurs when zinc preferentially dissolves from brass in seawater, leaving a weakened copper shell. Naval Brass (C46400) adds 0.75% tin to inhibit this electrochemical process, making it the standard choice for marine hardware." },
 ];
 
 // ─── MICROSTRUCTURE SVG ───────────────────────────────────────────────────────
@@ -422,7 +481,9 @@ function MicrostructureSVG({ metalId, width = 260, height = 105 }) {
     "maraging-steel":"martensite","aluminum":"aluminum_grains","copper":"copper_grains","nickel":"nickel_grains",
     "titanium":"titanium_grains","zinc":"zinc_grains","lead":"lead_grains","tungsten":"tungsten_grains",
     "magnesium":"magnesium_grains","cobalt":"cobalt_grains","tin":"tin_grains","chromium":"chromium_grains",
-    "molybdenum":"molybdenum_grains"
+    "molybdenum":"molybdenum_grains",
+    "brass":"brass_grains","phosphor-bronze":"bronze_grains","cupronickel":"cupronickel_grains",
+    "beryllium-copper":"beryllium_copper_grains","aluminum-bronze":"aluminum_bronze_grains","naval-brass":"brass_grains"
   }[metalId] || "pearlite_ferrite";
 
   const configs = {
@@ -445,6 +506,11 @@ function MicrostructureSVG({ metalId, width = 260, height = 105 }) {
     tin_grains:{ bg:"#0a0c0a", grainColor:"#141814", lineColor:"#406040", accent:"#80c080", label:"Tin Grains (β phase)", labelColor:"#90d090" },
     chromium_grains:{ bg:"#0c0808", grainColor:"#1e1010", lineColor:"#703020", accent:"#d06040", label:"Chromium Grains", labelColor:"#e07050" },
     molybdenum_grains:{ bg:"#080c10", grainColor:"#101820", lineColor:"#284870", accent:"#5080b0", label:"Molybdenum Grains", labelColor:"#6090c0" },
+    brass_grains:{ bg:"#0e0b04", grainColor:"#1e1608", lineColor:"#806020", accent:"#c8a040", label:"Brass α+β Grains", labelColor:"#d4aa48" },
+    bronze_grains:{ bg:"#100a04", grainColor:"#200e06", lineColor:"#784020", accent:"#b87040", label:"Bronze (α-Cu) Grains", labelColor:"#c07840" },
+    cupronickel_grains:{ bg:"#0c0a08", grainColor:"#1c1610", lineColor:"#786040", accent:"#c8a070", label:"Cupronickel Grains", labelColor:"#d0a878" },
+    beryllium_copper_grains:{ bg:"#100804", grainColor:"#201008", lineColor:"#904820", accent:"#e07030", label:"Be-Cu Precipitate Hardened", labelColor:"#e88040" },
+    aluminum_bronze_grains:{ bg:"#0c0a04", grainColor:"#1a1406", lineColor:"#706010", accent:"#b89020", label:"Aluminum Bronze Grains", labelColor:"#c0a030" },
   };
 
   const cfg = configs[microType] || configs.pearlite_ferrite;
@@ -841,13 +907,14 @@ export default function MetalogyApp() {
               Know Your <span style={{ color:"var(--or)" }}>Metals</span>
             </h1>
             <p style={{ color:"var(--mu)", maxWidth:460, margin:"0 auto 1.3rem", fontSize:".92rem", lineHeight:1.6, fontWeight:300 }}>
-              20 metals — ferrous and nonferrous — with names, properties, grades, microstructures, and steel mill applications.
+              26 metals — ferrous, non-ferrous, and copper alloys — with names, properties, grades, microstructures, and steel mill applications.
             </p>
             <div style={{ display:"flex", justifyContent:"center", gap:"1.8rem", flexWrap:"wrap" }}>
               {[
                 { n:ALL_METALS.length, l:"Metals" },
                 { n:FERROUS.length, l:"Ferrous" },
                 { n:NONFERROUS.length, l:"Non-Ferrous" },
+                { n:COPPER_ALLOYS.length, l:"Cu-Alloys" },
                 { n:progress.studied.length, l:"Studied" },
               ].map(s => (
                 <div key={s.l} style={{ textAlign:"center" }}>
@@ -861,8 +928,13 @@ export default function MetalogyApp() {
           <div className="sbar">
             <input className="sinput" placeholder="Search metals or applications..." value={search} onChange={e => setSearch(e.target.value)} />
             <div className="fbtns">
-              {["all","ferrous","nonferrous"].map(f => (
-                <button key={f} className={`fbtn${filter===f?" active":""}`} onClick={() => setFilter(f)}>{f}</button>
+              {[
+                { id:"all", label:"All" },
+                { id:"ferrous", label:"Ferrous" },
+                { id:"nonferrous", label:"Non-Ferrous" },
+                { id:"copper_alloy", label:"Copper Alloys" },
+              ].map(f => (
+                <button key={f.id} className={`fbtn${filter===f.id?" active":""}`} onClick={() => setFilter(f.id)}>{f.label}</button>
               ))}
             </div>
           </div>
@@ -880,6 +952,15 @@ export default function MetalogyApp() {
             <div className="sh"><span className="stag tnf">Non-Ferrous</span><span className="stitle">No-Iron Metals</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>No Iron (Fe) Base</span></div>
             <div className="grid">
               {displayMetals.filter(m=>m.type==="nonferrous").map(m => (
+                <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
+              ))}
+            </div>
+          </>}
+
+          {(filter==="all"||filter==="copper_alloy") && <>
+            <div className="sh"><span className="stag tcp">Copper Alloys</span><span className="stitle">Copper-Based Alloys</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>Cu-Base Engineering Alloys</span></div>
+            <div className="grid">
+              {displayMetals.filter(m=>m.type==="copper_alloy").map(m => (
                 <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
               ))}
             </div>
@@ -967,13 +1048,14 @@ export default function MetalogyApp() {
           <div className="cgrid">
             {[[metalA, compareA, setCompareA, "Metal A"], [metalB, compareB, setCompareB, "Metal B"]].map(([panel, sel, setSel, label]) => (
               <div key={label} className="cpanel">
-                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":"var(--nf)" }}>{label}: {panel?.name}</h3>
+                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":panel?.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{label}: {panel?.name}</h3>
                 <select className="csel" value={sel} onChange={e => setSel(e.target.value)}>
                   <optgroup label="── Ferrous ──">{FERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Non-Ferrous ──">{NONFERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
+                  <optgroup label="── Copper Alloys ──">{COPPER_ALLOYS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                 </select>
                 {panel && <>
-                  <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":"var(--nf)" }}>{panel.type}</span></div>
+                  <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":panel.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{panel.type==="copper_alloy"?"Cu-Alloy":panel.type}</span></div>
                   {Object.entries(panel.properties).map(([k,v]) => (
                     <div key={k} className="crow"><span className="clabel">{k}</span><span className="cval">{v}</span></div>
                   ))}
@@ -1032,7 +1114,7 @@ export default function MetalogyApp() {
                   />
                 </div>
                 <div className="fbtns" style={{ marginBottom:"1rem" }}>
-                  {[["all","All Metals"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"]].map(([val, label]) => (
+                  {[["all","All Metals"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"],["copper_alloy","Cu-Alloys"]].map(([val, label]) => (
                     <button key={val} className={`fbtn ${quizMetalFilter===val?"active":""}`} onClick={() => setQuizMetalFilter(val)}>
                       {label}
                     </button>
@@ -1190,7 +1272,7 @@ function MetalCard({ metal, expanded, onToggle, level, studied }) {
       {studied && <div className="studied-dot">✓</div>}
       <div className="ctop">
         <span className="msym">{metal.symbol}</span>
-        <span className={`cbadge ${metal.type==="ferrous"?"tfe":"tnf"}`}>{metal.type}</span>
+        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type}</span>
       </div>
       <div className="mname">{metal.name}</div>
       <div className="msub">{metal.subtitle}</div>
