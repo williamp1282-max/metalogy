@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 // ─── PERSISTENT STORAGE ──────────────────────────────────────────────────────
 const SK = "metalogy-v3";
@@ -615,7 +615,7 @@ const LADLE_ELEMENTS = [
 ];
 
 function predictProperties(vals) {
-  const { C, Mn, Cr, Ni, Mo, Si, V } = vals;
+  const { C, Mn, Cr, Ni, Mo, V } = vals;vals;
   const ts = Math.min(2200, 400 + C * 800 + Mn * 150 + Cr * 30 + Ni * 20 + Mo * 200 + V * 300);
   const hardness = Math.min(68, 20 + C * 25 + Mo * 3 + V * 8 + Cr * 0.5);
   const weldability = Math.max(0, 100 - C * 60 - Mn * 8 - Cr * 2 - Mo * 5 - Ni * 1.5);
