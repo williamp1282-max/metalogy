@@ -10,7 +10,7 @@ function initP() { return { quizHistory:[], studied:[], totalCorrect:0, totalAtt
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap');
 :root {
-  --bg:#080d0a; --s1:#0f1610; --s2:#151e16; --s3:#1b261d; --bd:#232e25;
+  --bg:#080d0a; --s1:#182518; --s2:#1e2e1e; --s3:#253826; --bd:#2e3e2e;
   --or:#f07820; --am:#f0a820; --st:#8aa89a; --tx:#d8e8dc; --mu:#607868;
   --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040; --cp:#b87333;
   --shadow-sm:0 2px 10px rgba(0,0,0,.5);
