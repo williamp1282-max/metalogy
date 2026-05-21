@@ -10,30 +10,31 @@ function initP() { return { quizHistory:[], studied:[], totalCorrect:0, totalAtt
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap');
 :root {
-  --bg:#090b0f; --s1:#11141e; --s2:#181c2a; --s3:#1e2334; --bd:#252b3b;
-  --or:#f07820; --am:#f0a820; --st:#8fa0b8; --tx:#dde5f0; --mu:#68788e;
+  --bg:#080d0a; --s1:#0f1610; --s2:#151e16; --s3:#1b261d; --bd:#232e25;
+  --or:#f07820; --am:#f0a820; --st:#8aa89a; --tx:#d8e8dc; --mu:#607868;
   --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040; --cp:#b87333;
-  --shadow-sm:0 2px 10px rgba(0,0,0,.45);
-  --shadow-md:0 4px 24px rgba(0,0,0,.55);
-  --shadow-lg:0 8px 48px rgba(0,0,0,.65);
+  --shadow-sm:0 2px 10px rgba(0,0,0,.5);
+  --shadow-md:0 4px 24px rgba(0,0,0,.6);
+  --shadow-lg:0 8px 48px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-height:100vh;}
 .app{min-height:100vh;background:
-  radial-gradient(ellipse 110% 55% at 50% -5%,rgba(240,120,32,.1) 0%,transparent 52%),
-  radial-gradient(ellipse 50% 25% at 85% 85%,rgba(32,168,208,.04) 0%,transparent 50%),
-  repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(37,43,59,.18) 39px,rgba(37,43,59,.18) 40px),
-  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(37,43,59,.1) 39px,rgba(37,43,59,.1) 40px),
+  radial-gradient(ellipse 110% 55% at 50% -5%,rgba(240,120,32,.08) 0%,transparent 52%),
+  radial-gradient(ellipse 60% 40% at 0% 60%,rgba(40,200,100,.04) 0%,transparent 55%),
+  radial-gradient(ellipse 50% 30% at 100% 20%,rgba(40,160,80,.03) 0%,transparent 50%),
+  repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(35,46,37,.2) 39px,rgba(35,46,37,.2) 40px),
+  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(35,46,37,.12) 39px,rgba(35,46,37,.12) 40px),
   var(--bg);}
 
 /* HEADER */
-.hdr{padding:0 1.5rem;border-bottom:1px solid rgba(37,43,59,.7);background:rgba(9,11,15,.96);backdrop-filter:blur(16px);position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:0 1px 24px rgba(0,0,0,.6);}
+.hdr{padding:0 1.5rem;border-bottom:1px solid rgba(35,46,37,.7);background:rgba(8,13,10,.96);backdrop-filter:blur(16px);position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:0 1px 24px rgba(0,0,0,.6);}
 .logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:.08em;color:var(--or);text-transform:uppercase;display:flex;align-items:center;gap:.4rem;text-shadow:0 0 28px rgba(240,120,32,.5);}
 .logo span{color:var(--tx);text-shadow:none;}
 .lvl-sel{display:flex;gap:.2rem;background:rgba(0,0,0,.35);padding:3px;border-radius:20px;border:1px solid var(--bd);}
 .lvl-btn{padding:4px 13px;border-radius:20px;border:none;background:transparent;color:var(--mu);font-family:'Barlow',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;cursor:pointer;transition:all .2s;text-transform:uppercase;}
 .lvl-btn.active{background:var(--or);color:#fff;box-shadow:0 0 14px rgba(240,120,32,.4);}
-.nav{display:flex;border-bottom:1px solid rgba(37,43,59,.5);padding:0 1.5rem;background:rgba(11,14,22,.9);overflow-x:auto;scrollbar-width:none;backdrop-filter:blur(8px);}
+.nav{display:flex;border-bottom:1px solid rgba(35,46,37,.5);padding:0 1.5rem;background:rgba(10,14,11,.9);overflow-x:auto;scrollbar-width:none;backdrop-filter:blur(8px);}
 .nav::-webkit-scrollbar{display:none;}
 .ntab{padding:12px 16px;border:none;background:transparent;color:var(--mu);font-family:'Rajdhani',sans-serif;font-size:.87rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
 .ntab:hover{color:var(--tx);}
