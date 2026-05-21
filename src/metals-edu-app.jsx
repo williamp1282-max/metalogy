@@ -10,169 +10,180 @@ function initP() { return { quizHistory:[], studied:[], totalCorrect:0, totalAtt
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap');
 :root {
-  --bg:#0d0f12; --s1:#141720; --s2:#1c2030; --bd:#2a2f3d;
-  --or:#f07820; --am:#f0a820; --st:#8fa0b8; --tx:#dce4ef; --mu:#6b7a90;
-  --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040;
+  --bg:#1c3020; --s1:#263e2a; --s2:#2e4a32; --s3:#36563c; --bd:#4a6450;
+  --or:#f07820; --am:#f0a820; --st:#8aa89a; --tx:#d8e8dc; --mu:#607868;
+  --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040; --cp:#b87333;
+  --shadow-sm:0 2px 10px rgba(0,0,0,.5);
+  --shadow-md:0 4px 24px rgba(0,0,0,.6);
+  --shadow-lg:0 8px 48px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-height:100vh;}
 .app{min-height:100vh;background:
-  radial-gradient(ellipse 80% 40% at 50% 0%,rgba(240,120,32,0.05) 0%,transparent 60%),
-  repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(42,47,61,0.2) 39px,rgba(42,47,61,0.2) 40px),
-  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(42,47,61,0.1) 39px,rgba(42,47,61,0.1) 40px),
+  radial-gradient(ellipse 110% 55% at 50% -5%,rgba(240,120,32,.08) 0%,transparent 52%),
+  radial-gradient(ellipse 60% 40% at 0% 60%,rgba(40,200,100,.04) 0%,transparent 55%),
+  radial-gradient(ellipse 50% 30% at 100% 20%,rgba(40,160,80,.03) 0%,transparent 50%),
+  repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(35,46,37,.2) 39px,rgba(35,46,37,.2) 40px),
+  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(35,46,37,.12) 39px,rgba(35,46,37,.12) 40px),
   var(--bg);}
 
 /* HEADER */
-.hdr{padding:0 1.5rem;border-bottom:1px solid var(--bd);background:rgba(13,15,18,.97);backdrop-filter:blur(10px);position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;height:58px;}
-.logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.08em;color:var(--or);text-transform:uppercase;display:flex;align-items:center;gap:.4rem;}
-.logo span{color:var(--tx);}
-.lvl-sel{display:flex;gap:.25rem;background:var(--s1);padding:3px;border-radius:5px;border:1px solid var(--bd);}
-.lvl-btn{padding:4px 11px;border-radius:3px;border:none;background:transparent;color:var(--mu);font-family:'Barlow',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;cursor:pointer;transition:all .15s;text-transform:uppercase;}
-.lvl-btn.active{background:var(--or);color:#fff;}
-.nav{display:flex;border-bottom:1px solid var(--bd);padding:0 1.5rem;background:rgba(20,23,32,.92);overflow-x:auto;scrollbar-width:none;}
+.hdr{padding:0 1.5rem;border-bottom:1px solid rgba(74,100,80,.5);background:rgba(22,42,26,.97);backdrop-filter:blur(16px);position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;height:60px;box-shadow:0 1px 24px rgba(0,8,2,.5);}
+.logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.35rem;letter-spacing:.08em;color:var(--or);text-transform:uppercase;display:flex;align-items:center;gap:.4rem;text-shadow:0 0 28px rgba(240,120,32,.5);}
+.logo span{color:var(--tx);text-shadow:none;}
+.lvl-sel{display:flex;gap:.2rem;background:rgba(8,22,10,.5);padding:3px;border-radius:20px;border:1px solid var(--bd);}
+.lvl-btn{padding:4px 13px;border-radius:20px;border:none;background:transparent;color:var(--mu);font-family:'Barlow',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;cursor:pointer;transition:all .2s;text-transform:uppercase;}
+.lvl-btn.active{background:var(--or);color:#fff;box-shadow:0 0 14px rgba(240,120,32,.4);}
+.nav{display:flex;border-bottom:1px solid rgba(74,100,80,.4);padding:0 1.5rem;background:rgba(24,40,28,.94);overflow-x:auto;scrollbar-width:none;backdrop-filter:blur(8px);}
 .nav::-webkit-scrollbar{display:none;}
-.ntab{padding:12px 16px;border:none;background:transparent;color:var(--mu);font-family:'Rajdhani',sans-serif;font-size:.87rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.ntab{padding:12px 16px;border:none;background:transparent;color:var(--mu);font-family:'Rajdhani',sans-serif;font-size:.87rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
 .ntab:hover{color:var(--tx);}
-.ntab.active{color:var(--or);border-bottom-color:var(--or);}
+.ntab.active{color:var(--or);border-bottom-color:var(--or);text-shadow:0 0 16px rgba(240,120,32,.55);}
 .main{padding:1.5rem;max-width:1300px;margin:0 auto;}
 
 /* SECTION HEADERS */
-.sh{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem;flex-wrap:wrap;}
-.stag{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:.12em;padding:2px 8px;border-radius:2px;text-transform:uppercase;}
-.tfe{background:rgba(224,92,48,.15);color:var(--fe);border:1px solid rgba(224,92,48,.3);}
-.tnf{background:rgba(32,168,208,.12);color:var(--nf);border:1px solid rgba(32,168,208,.3);}
-.tml{background:rgba(160,96,208,.12);color:var(--ml);border:1px solid rgba(160,96,208,.3);}
-.tgn{background:rgba(64,200,112,.12);color:var(--gn);border:1px solid rgba(64,200,112,.3);}
-.tam{background:rgba(240,168,32,.12);color:var(--am);border:1px solid rgba(240,168,32,.3);}
-.stitle{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
+.sh{display:flex;align-items:center;gap:.7rem;margin-bottom:1.25rem;flex-wrap:wrap;padding-bottom:.85rem;border-bottom:1px solid rgba(37,43,59,.45);}
+.stag{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.12em;padding:3px 10px;border-radius:20px;text-transform:uppercase;font-weight:700;}
+.tfe{background:rgba(224,92,48,.14);color:var(--fe);border:1px solid rgba(224,92,48,.32);}
+.tnf{background:rgba(32,168,208,.11);color:var(--nf);border:1px solid rgba(32,168,208,.32);}
+.tml{background:rgba(160,96,208,.11);color:var(--ml);border:1px solid rgba(160,96,208,.32);}
+.tgn{background:rgba(64,200,112,.11);color:var(--gn);border:1px solid rgba(64,200,112,.32);}
+.tam{background:rgba(240,168,32,.11);color:var(--am);border:1px solid rgba(240,168,32,.32);}
+.tcp{background:rgba(184,115,51,.11);color:var(--cp);border:1px solid rgba(184,115,51,.32);}
+.stitle{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
 
 /* CARDS */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:.85rem;margin-bottom:2rem;}
-.mcard{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:1rem;transition:all .2s;position:relative;overflow:hidden;}
-.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.mcard.ferrous::before{background:var(--fe);}
-.mcard.nonferrous::before{background:var(--nf);}
-.mcard:hover{border-color:rgba(240,120,32,.35);background:var(--s2);}
-.mcard.exp{border-color:var(--or);}
-.ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.45rem;}
-.msym{font-family:'Share Tech Mono',monospace;font-size:1.45rem;font-weight:700;line-height:1;}
-.mcard.ferrous .msym{color:var(--fe);}
-.mcard.nonferrous .msym{color:var(--nf);}
-.cbadge{font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.1em;padding:2px 5px;border-radius:2px;text-transform:uppercase;}
-.mname{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.15rem;}
-.msub{font-size:.72rem;color:var(--mu);font-weight:300;margin-bottom:.6rem;}
-.mdesc{font-size:.83rem;color:#a0afc0;line-height:1.5;margin-bottom:.6rem;}
-.ulist{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.65rem;}
-.uchip{font-size:.68rem;padding:2px 7px;border-radius:3px;background:rgba(143,160,184,.09);color:var(--st);border:1px solid rgba(143,160,184,.17);font-weight:500;}
-.xbtn{width:100%;padding:5px;background:rgba(240,120,32,.07);border:1px solid rgba(240,120,32,.17);border-radius:4px;color:var(--or);font-family:'Rajdhani',sans-serif;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .15s;font-weight:600;}
-.xbtn:hover{background:rgba(240,120,32,.14);}
-.det{margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--bd);}
-.det h4{font-family:'Rajdhani',sans-serif;font-size:.79rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:.4rem;}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-bottom:.6rem;}
-.pi{background:rgba(0,0,0,.28);border:1px solid var(--bd);border-radius:4px;padding:5px 8px;}
-.plabel{font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;}
-.pval{font-size:.8rem;color:var(--tx);font-weight:500;margin-top:1px;}
-.ginfo{font-size:.78rem;color:#a0afc0;line-height:1.5;background:rgba(0,0,0,.2);border-left:2px solid var(--or);padding:6px 10px;border-radius:0 4px 4px 0;margin-bottom:.5rem;}
-.studied-dot{position:absolute;top:8px;right:8px;width:18px;height:18px;background:var(--gn);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1rem;margin-bottom:2.5rem;}
+.mcard{background:linear-gradient(150deg,var(--s1) 0%,var(--s2) 100%);border:1px solid var(--bd);border-radius:12px;padding:1.1rem;transition:all .25s;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.mcard.ferrous::before{background:linear-gradient(90deg,var(--fe) 0%,rgba(224,92,48,0) 75%);}
+.mcard.nonferrous::before{background:linear-gradient(90deg,var(--nf) 0%,rgba(32,168,208,0) 75%);}
+.mcard.copper_alloy::before{background:linear-gradient(90deg,var(--cp) 0%,rgba(184,115,51,0) 75%);}
+.mcard.ferrous:hover{border-color:rgba(224,92,48,.42);box-shadow:0 6px 30px rgba(224,92,48,.13),var(--shadow-md);background:linear-gradient(150deg,var(--s2) 0%,var(--s3) 100%);}
+.mcard.nonferrous:hover{border-color:rgba(32,168,208,.42);box-shadow:0 6px 30px rgba(32,168,208,.13),var(--shadow-md);background:linear-gradient(150deg,var(--s2) 0%,var(--s3) 100%);}
+.mcard.copper_alloy:hover{border-color:rgba(184,115,51,.42);box-shadow:0 6px 30px rgba(184,115,51,.13),var(--shadow-md);background:linear-gradient(150deg,var(--s2) 0%,var(--s3) 100%);}
+.mcard.exp{border-color:rgba(240,120,32,.45);box-shadow:0 0 0 1px rgba(240,120,32,.12),var(--shadow-md);}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;}
+.msym{font-family:'Share Tech Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;}
+.mcard.ferrous .msym{color:var(--fe);text-shadow:0 0 18px rgba(224,92,48,.3);}
+.mcard.nonferrous .msym{color:var(--nf);text-shadow:0 0 18px rgba(32,168,208,.3);}
+.mcard.copper_alloy .msym{color:var(--cp);text-shadow:0 0 18px rgba(184,115,51,.3);}
+.cbadge{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:2px 8px;border-radius:20px;text-transform:uppercase;font-weight:700;}
+.mname{font-family:'Rajdhani',sans-serif;font-size:1.08rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.15rem;}
+.msub{font-size:.73rem;color:var(--mu);font-weight:300;margin-bottom:.65rem;}
+.mdesc{font-size:.83rem;color:#96acc0;line-height:1.56;margin-bottom:.7rem;}
+.ulist{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
+.uchip{font-size:.67rem;padding:3px 9px;border-radius:20px;background:rgba(143,160,184,.07);color:var(--st);border:1px solid rgba(143,160,184,.14);font-weight:500;transition:all .15s;}
+.xbtn{width:100%;padding:7px;background:transparent;border:1px solid rgba(240,120,32,.2);border-radius:8px;color:var(--or);font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:600;}
+.xbtn:hover{background:rgba(240,120,32,.09);border-color:rgba(240,120,32,.4);box-shadow:0 0 14px rgba(240,120,32,.1);}
+.det{margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(37,43,59,.55);}
+.det h4{font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:.45rem;opacity:.85;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;}
+.pi{background:linear-gradient(135deg,rgba(10,22,12,.45),rgba(20,38,22,.55));border:1px solid rgba(52,76,54,.5);border-radius:6px;padding:6px 10px;}
+.plabel{font-size:.59rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;}
+.pval{font-size:.82rem;color:var(--tx);font-weight:500;margin-top:2px;}
+.ginfo{font-size:.79rem;color:#96bca0;line-height:1.56;background:rgba(10,22,12,.32);border-left:2px solid var(--or);padding:7px 11px;border-radius:0 6px 6px 0;margin-bottom:.5rem;box-shadow:-3px 0 10px rgba(240,120,32,.07);}
+.studied-dot{position:absolute;top:10px;right:10px;width:20px;height:20px;background:var(--gn);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;box-shadow:0 0 12px rgba(64,200,112,.5);}
 
 /* MICROSTRUCTURE */
-.micro-wrap{margin-bottom:.7rem;}
-.micro-lbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--mu);letter-spacing:.1em;text-align:center;margin-bottom:.35rem;text-transform:uppercase;}
+.micro-wrap{margin-bottom:.75rem;}
+.micro-lbl{font-family:'Share Tech Mono',monospace;font-size:.61rem;color:var(--mu);letter-spacing:.1em;text-align:center;margin-bottom:.4rem;text-transform:uppercase;}
 
 /* SEARCH/FILTER */
-.sbar{display:flex;gap:.7rem;margin-bottom:1.3rem;flex-wrap:wrap;align-items:center;}
-.sinput{flex:1;min-width:180px;background:var(--s1);border:1px solid var(--bd);border-radius:5px;padding:8px 12px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:.88rem;outline:none;}
-.sinput:focus{border-color:var(--or);}
-.fbtns{display:flex;gap:.3rem;flex-wrap:wrap;}
-.fbtn{padding:6px 12px;border-radius:3px;border:1px solid var(--bd);background:var(--s1);color:var(--mu);font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:all .15s;}
-.fbtn.active{border-color:var(--or);background:rgba(240,120,32,.1);color:var(--or);}
+.sbar{display:flex;gap:.7rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+.sinput{flex:1;min-width:180px;background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:9px 14px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:.88rem;outline:none;transition:all .2s;box-shadow:var(--shadow-sm);}
+.sinput:focus{border-color:rgba(240,120,32,.55);box-shadow:0 0 0 3px rgba(240,120,32,.08),var(--shadow-sm);}
+.fbtns{display:flex;gap:.35rem;flex-wrap:wrap;}
+.fbtn{padding:6px 15px;border-radius:20px;border:1px solid var(--bd);background:rgba(10,24,12,.35);color:var(--mu);font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.fbtn:hover{color:var(--tx);border-color:rgba(143,160,184,.28);}
+.fbtn.active{border-color:rgba(240,120,32,.5);background:rgba(240,120,32,.11);color:var(--or);box-shadow:0 0 14px rgba(240,120,32,.1);}
 
 /* MILL */
-.mflow{display:flex;align-items:center;gap:0;margin-bottom:1.3rem;overflow-x:auto;padding-bottom:.5rem;}
-.mstep{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:.8rem .9rem;min-width:120px;text-align:center;flex-shrink:0;cursor:pointer;transition:all .15s;}
-.mstep:hover,.mstep.active{border-color:var(--ml);background:rgba(160,96,208,.08);}
-.marr{color:var(--mu);font-size:1rem;flex-shrink:0;padding:0 .2rem;}
+.mflow{display:flex;align-items:center;gap:0;margin-bottom:1.4rem;overflow-x:auto;padding-bottom:.5rem;}
+.mstep{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:10px;padding:.85rem .95rem;min-width:120px;text-align:center;flex-shrink:0;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-sm);}
+.mstep:hover,.mstep.active{border-color:rgba(160,96,208,.45);background:linear-gradient(150deg,rgba(160,96,208,.06),rgba(160,96,208,.13));box-shadow:0 4px 22px rgba(160,96,208,.13),var(--shadow-sm);}
+.marr{color:var(--mu);font-size:1rem;flex-shrink:0;padding:0 .2rem;opacity:.4;}
 .msi{font-size:1.5rem;margin-bottom:.2rem;}
 .msn{font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
-.mst{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--ml);margin-top:1px;}
-.mdc{background:var(--s1);border:1px solid var(--ml);border-radius:8px;padding:1.2rem;margin-bottom:1.3rem;}
-.mdc h3{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ml);margin-bottom:.6rem;}
-.mdc p{font-size:.85rem;color:#a0afc0;line-height:1.6;margin-bottom:.6rem;}
+.mst{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--ml);margin-top:2px;}
+.mdc{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid rgba(160,96,208,.28);border-radius:12px;padding:1.3rem;margin-bottom:1.4rem;box-shadow:0 0 28px rgba(160,96,208,.07),var(--shadow-sm);}
+.mdc h3{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ml);margin-bottom:.65rem;text-shadow:0 0 20px rgba(160,96,208,.35);}
+.mdc p{font-size:.85rem;color:#96acc0;line-height:1.6;margin-bottom:.6rem;}
 .atable{width:100%;border-collapse:collapse;font-size:.82rem;}
-.atable th{font-family:'Share Tech Mono',monospace;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;}
-.atable td{padding:8px 10px;border-bottom:1px solid rgba(42,47,61,.5);color:var(--tx);}
-.atable tr:hover td{background:rgba(240,120,32,.03);}
-.echip{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.66rem;padding:1px 5px;background:rgba(240,168,32,.12);color:var(--am);border-radius:2px;margin-right:3px;}
+.atable th{font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left;}
+.atable td{padding:9px 10px;border-bottom:1px solid rgba(37,43,59,.45);color:var(--tx);}
+.atable tr:hover td{background:rgba(240,120,32,.04);}
+.echip{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 6px;background:rgba(240,168,32,.11);color:var(--am);border-radius:4px;margin-right:3px;}
 
 /* LADLE CALCULATOR */
 .calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
 @media(max-width:700px){.calc-wrap{grid-template-columns:1fr;}}
-.calc-panel{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:1.1rem;}
-.calc-panel h3{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--am);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd);}
-.el-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;}
+.calc-panel{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow-sm);}
+.calc-panel h3{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--am);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid rgba(37,43,59,.55);}
+.el-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;}
 .el-sym{font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--am);min-width:28px;font-weight:700;}
 .el-name{font-size:.78rem;color:var(--mu);min-width:85px;}
 .el-slider{flex:1;accent-color:var(--or);cursor:pointer;height:4px;}
 .el-val{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--tx);min-width:42px;text-align:right;}
-.pred-section{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:1rem;}
-.pred-section h4{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--or);margin-bottom:.7rem;}
-.pred-bar-wrap{margin-bottom:.55rem;}
+.pred-section{background:rgba(10,22,12,.35);border:1px solid rgba(52,76,54,.5);border-radius:8px;padding:1.1rem;}
+.pred-section h4{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--or);margin-bottom:.75rem;}
+.pred-bar-wrap{margin-bottom:.6rem;}
 .pred-bar-label{display:flex;justify-content:space-between;margin-bottom:3px;}
 .pred-bar-name{font-size:.73rem;color:var(--mu);}
 .pred-bar-val{font-family:'Share Tech Mono',monospace;font-size:.73rem;color:var(--tx);}
-.pred-bar-bg{height:6px;background:var(--bd);border-radius:3px;overflow:hidden;}
+.pred-bar-bg{height:6px;background:rgba(52,76,54,.7);border-radius:3px;overflow:hidden;}
 .pred-bar-fill{height:100%;border-radius:3px;transition:width .4s ease;}
-.pred-steel-type{margin-top:.8rem;padding:.6rem .9rem;background:rgba(240,120,32,.08);border:1px solid rgba(240,120,32,.25);border-radius:5px;font-size:.82rem;color:var(--tx);line-height:1.5;}
+.pred-steel-type{margin-top:.85rem;padding:.65rem .95rem;background:rgba(240,120,32,.07);border:1px solid rgba(240,120,32,.2);border-radius:7px;font-size:.82rem;color:var(--tx);line-height:1.55;}
 .pred-grade{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--or);margin-top:.3rem;}
 
 /* COMPARE */
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.5rem;}
 @media(max-width:600px){.cgrid{grid-template-columns:1fr;}}
-.cpanel{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:1.1rem;}
-.cpanel h3{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd);}
-.csel{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:4px;color:var(--tx);padding:7px 11px;font-family:'Barlow',sans-serif;font-size:.87rem;margin-bottom:.9rem;outline:none;cursor:pointer;}
-.csel:focus{border-color:var(--or);}
-.crow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(42,47,61,.45);font-size:.82rem;}
+.cpanel{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow-sm);}
+.cpanel h3{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.85rem;padding-bottom:.55rem;border-bottom:1px solid rgba(37,43,59,.55);}
+.csel{width:100%;background:rgba(10,22,12,.4);border:1px solid var(--bd);border-radius:7px;color:var(--tx);padding:8px 12px;font-family:'Barlow',sans-serif;font-size:.87rem;margin-bottom:.95rem;outline:none;cursor:pointer;transition:all .2s;}
+.csel:focus{border-color:rgba(240,120,32,.5);box-shadow:0 0 0 3px rgba(240,120,32,.07);}
+.crow{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(37,43,59,.4);font-size:.82rem;}
 .clabel{color:var(--mu);font-size:.76rem;}
 .cval{color:var(--tx);font-weight:500;}
 
 /* QUIZ */
 .qwrap{max-width:660px;margin:0 auto;}
-.qprog{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;}
-.qpbar{flex:1;height:4px;background:var(--bd);border-radius:2px;overflow:hidden;}
-.qpfill{height:100%;background:var(--or);transition:width .3s;border-radius:2px;}
+.qprog{display:flex;align-items:center;gap:.8rem;margin-bottom:1.6rem;}
+.qpbar{flex:1;height:5px;background:rgba(52,76,54,.7);border-radius:3px;overflow:hidden;}
+.qpfill{height:100%;background:linear-gradient(90deg,var(--fe),var(--or));transition:width .35s;border-radius:3px;}
 .qptxt{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--mu);white-space:nowrap;}
-.qcard{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:1.7rem;margin-bottom:1.2rem;}
-.qcat{font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--or);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.7rem;}
-.qq{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:600;letter-spacing:.03em;line-height:1.3;margin-bottom:1.3rem;}
+.qcard{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:12px;padding:1.8rem;margin-bottom:1.2rem;box-shadow:var(--shadow-md);}
+.qcat{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;opacity:.75;}
+.qq{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:600;letter-spacing:.03em;line-height:1.35;margin-bottom:1.35rem;}
 .qopts{display:grid;gap:.5rem;}
-.qopt{padding:11px 14px;background:var(--s2);border:1px solid var(--bd);border-radius:5px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:.88rem;cursor:pointer;text-align:left;transition:all .15s;font-weight:400;}
-.qopt:hover:not(:disabled){border-color:var(--or);background:rgba(240,120,32,.07);}
-.qopt.correct{background:rgba(64,200,112,.1);border-color:var(--gn);color:#70e090;}
+.qopt{padding:12px 16px;background:rgba(10,24,12,.3);border:1px solid rgba(52,76,54,.55);border-radius:8px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:.88rem;cursor:pointer;text-align:left;transition:all .18s;font-weight:400;}
+.qopt:hover:not(:disabled){border-color:rgba(240,120,32,.4);background:rgba(240,120,32,.07);box-shadow:0 0 14px rgba(240,120,32,.07);}
+.qopt.correct{background:rgba(64,200,112,.1);border-color:var(--gn);color:#70e090;box-shadow:0 0 14px rgba(64,200,112,.1);}
 .qopt.wrong{background:rgba(224,64,64,.1);border-color:var(--rd);color:#f08080;}
-.qopt.reveal{background:rgba(64,200,112,.04);border-color:rgba(64,200,112,.22);color:#70e090;}
-.qfb{padding:10px 14px;border-radius:5px;font-size:.87rem;margin-top:.8rem;line-height:1.5;}
-.qfb.ok{background:rgba(64,200,112,.07);border:1px solid rgba(64,200,112,.22);color:#70e090;}
-.qfb.ng{background:rgba(224,64,64,.07);border:1px solid rgba(224,64,64,.22);color:#f08080;}
-.qnxt{width:100%;padding:12px;background:var(--or);border:none;border-radius:5px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:.8rem;transition:opacity .15s;}
-.qnxt:hover{opacity:.88;}
-.score-card{background:var(--s1);border:1px solid var(--or);border-radius:10px;padding:2.5rem 1.5rem;text-align:center;}
-.score-big{font-family:'Rajdhani',sans-serif;font-size:4.5rem;font-weight:700;color:var(--or);line-height:1;margin-bottom:.4rem;}
+.qopt.reveal{background:rgba(64,200,112,.04);border-color:rgba(64,200,112,.24);color:#70e090;}
+.qfb{padding:11px 15px;border-radius:7px;font-size:.87rem;margin-top:.85rem;line-height:1.55;}
+.qfb.ok{background:rgba(64,200,112,.07);border:1px solid rgba(64,200,112,.24);color:#70e090;}
+.qfb.ng{background:rgba(224,64,64,.07);border:1px solid rgba(224,64,64,.24);color:#f08080;}
+.qnxt{width:100%;padding:13px;background:linear-gradient(90deg,var(--fe),var(--or));border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.98rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:.85rem;transition:all .2s;box-shadow:0 4px 18px rgba(240,120,32,.32);}
+.qnxt:hover{opacity:.9;box-shadow:0 6px 26px rgba(240,120,32,.45);}
+.score-card{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid rgba(240,120,32,.28);border-radius:14px;padding:2.5rem 1.5rem;text-align:center;box-shadow:0 0 48px rgba(240,120,32,.09),var(--shadow-lg);}
+.score-big{font-family:'Rajdhani',sans-serif;font-size:4.5rem;font-weight:700;color:var(--or);line-height:1;margin-bottom:.4rem;text-shadow:0 0 36px rgba(240,120,32,.45);}
 .score-lbl{font-size:.95rem;color:var(--mu);margin-bottom:1.5rem;}
 .score-msg{font-size:1rem;color:var(--tx);margin-bottom:1.5rem;line-height:1.6;}
-.qlobb{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:1.7rem;}
-.qlobb-meta{font-size:.88rem;color:var(--mu);text-align:center;padding:.6rem 0 0;}
+.qlobb{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:12px;padding:1.8rem;box-shadow:var(--shadow-sm);}
+.qlobb-meta{font-size:.88rem;color:var(--mu);text-align:center;padding:.65rem 0 0;}
 .qlobb-count{font-family:'Share Tech Mono',monospace;font-size:1.3rem;color:var(--or);}
 
 /* PROGRESS TAB */
-.stat-card{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:1.1rem;text-align:center;}
-.stat-big{font-family:'Rajdhani',sans-serif;font-size:2.2rem;font-weight:700;color:var(--am);line-height:1;}
-.stat-sub{font-size:.72rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem;}
-.badge-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .75rem;background:rgba(240,168,32,.1);border:1px solid rgba(240,168,32,.25);border-radius:4px;font-size:.78rem;color:var(--am);margin:.2rem;}
-.hist-row{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid rgba(42,47,61,.5);font-size:.82rem;}
+.stat-card{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:10px;padding:1.2rem;text-align:center;box-shadow:var(--shadow-sm);}
+.stat-big{font-family:'Rajdhani',sans-serif;font-size:2.2rem;font-weight:700;color:var(--am);line-height:1;text-shadow:0 0 22px rgba(240,168,32,.28);}
+.stat-sub{font-size:.72rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem;}
+.badge-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .85rem;background:rgba(240,168,32,.08);border:1px solid rgba(240,168,32,.22);border-radius:20px;font-size:.78rem;color:var(--am);margin:.2rem;}
+.hist-row{display:flex;align-items:center;gap:.7rem;padding:.55rem 0;border-bottom:1px solid rgba(37,43,59,.4);font-size:.82rem;}
 .hist-score{font-family:'Share Tech Mono',monospace;min-width:35px;font-weight:700;}
 .hist-date{color:var(--mu);font-size:.7rem;white-space:nowrap;}
-.hist-pct{font-family:'Share Tech Mono',monospace;font-size:.72rem;padding:1px 6px;border-radius:2px;min-width:38px;text-align:center;}
+.hist-pct{font-family:'Share Tech Mono',monospace;font-size:.72rem;padding:2px 7px;border-radius:4px;min-width:38px;text-align:center;}
 @media(max-width:580px){.hdr{padding:0 .9rem;}.main{padding:1rem;}.lvl-sel{display:none;}}
 `;
 
@@ -344,7 +355,58 @@ const NONFERROUS = [
     micro:"molybdenum_grains" },
 ];
 
-const ALL_METALS = [...FERROUS, ...NONFERROUS];
+const COPPER_ALLOYS = [
+  { id:"brass", symbol:"Cu-Zn", name:"Brass (C26000)", subtitle:"Cartridge Brass 70/30", type:"copper_alloy",
+    desc:"The most widely used copper alloy: 70% copper, 30% zinc. Excellent cold-working ability, good strength, and a distinctive golden color. Named 'cartridge brass' for its use in ammunition casings.",
+    uses:["Ammunition Cartridges","Musical Instruments","Plumbing Fittings","Zippers","Radiator Cores","Decorative Hardware"],
+    properties:{"Copper Content":"70%","Zinc Content":"30%","Tensile Strength":"300–900 MPa","Melting Point":"915–955°C"},
+    grades:"C26000 (70/30): deep drawing. C27000 (65/35): yellow brass, hardware. C28000 (60/40): Muntz metal, hot working. C22000 (90/10): commercial bronze.",
+    millRole:"Brass is processed in specialty non-ferrous rolling mills using multiple cold-reduction passes with intermediate annealing. Hot-dip galvanizing tanks use brass fittings throughout due to zinc compatibility.",
+    studentNote:"Brass's gold color comes from the zinc — pure copper is reddish-orange, but adding zinc shifts it toward yellow. More zinc = more yellow/greenish.",
+    micro:"brass_grains" },
+  { id:"phosphor-bronze", symbol:"Cu-Sn", name:"Phosphor Bronze", subtitle:"Cu-Sn-P Spring Alloy", type:"copper_alloy",
+    desc:"Copper with 5% tin and up to 0.35% phosphorus. The phosphorus acts as a deoxidizer and strengthens the alloy. Outstanding spring properties, fatigue resistance, and corrosion resistance in seawater.",
+    uses:["Electrical Connectors","Springs","Bearings","Ship Propellers","Diaphragms","Musical Instrument Strings"],
+    properties:{"Copper Content":"~94.5%","Tin Content":"~5%","Tensile Strength":"300–900 MPa","Fatigue Resistance":"Excellent"},
+    grades:"C51000 (5% Sn): spring wire. C52100 (8% Sn): heavy duty springs. C54400 (4% Sn + Pb): free-machining bearings. C90300: tin bronze castings.",
+    millRole:"Phosphor bronze strip is drawn and annealed in specialty copper mills. Used in steel plant electrical panels, bus bar supports, and spring-loaded contact assemblies in instrumentation.",
+    studentNote:"Phosphor bronze is what makes guitar strings vibrant — the tin gives rigidity, phosphorus adds strength, and copper provides the warm tone.",
+    micro:"bronze_grains" },
+  { id:"cupronickel", symbol:"Cu-Ni", name:"Cupronickel (90/10)", subtitle:"Marine Grade Cu-Ni Alloy", type:"copper_alloy",
+    desc:"90% copper, 10% nickel with small additions of iron and manganese. Exceptional resistance to seawater corrosion and biofouling (marine organisms). Used wherever saltwater contact is unavoidable.",
+    uses:["Marine Heat Exchangers","Seawater Piping","Coinage","Desalination Plants","Ship Hull Cladding","Offshore Oil Platforms"],
+    properties:{"Copper Content":"90%","Nickel Content":"10%","Tensile Strength":"300–500 MPa","Seawater Corrosion":"Excellent"},
+    grades:"C70600 (90/10): standard marine. C71500 (70/30): higher strength marine. C72200 (Cr-addition): improved erosion resistance. Used in UNS C70600, DIN 2.0872.",
+    millRole:"Cupronickel tubes line the water-cooling circuits in continuous caster secondary cooling zones and are used in heat exchangers throughout the utility systems of a steel plant.",
+    studentNote:"Cupronickel is why coins like US quarters and dimes feel the way they do — the silvery appearance comes from nickel, but most of the metal is copper.",
+    micro:"cupronickel_grains" },
+  { id:"beryllium-copper", symbol:"Cu-Be", name:"Beryllium Copper", subtitle:"Highest Strength Cu Alloy", type:"copper_alloy",
+    desc:"The strongest of all copper alloys: 1.7–2% beryllium in copper. After age hardening, it reaches tensile strengths over 1400 MPa while maintaining 60%+ of copper's conductivity. Non-sparking and non-magnetic.",
+    uses:["High-Performance Springs","Aerospace Connectors","Non-Sparking Tools","Plastic Injection Molds","Precision Instruments","Oil/Gas Safety Tools"],
+    properties:{"Beryllium Content":"1.7–2%","Tensile Strength":"700–1400 MPa","Conductivity":"~60% IACS","Hardness":"HRC 36–42 (aged)"},
+    grades:"C17200 (1.9% Be): highest strength. C17000 (1.7% Be): balance of strength/conductivity. C17500 (0.6% Be + Co): high conductivity grade. Age hardened at 315°C.",
+    millRole:"Beryllium copper molds and tools are used in non-sparking maintenance work in flammable gas atmospheres. Also used in precision sensor springs for ladle weighing systems.",
+    studentNote:"Beryllium copper is a metallurgical paradox — it's as strong as steel but conducts electricity like a metal. The downside: beryllium dust is highly toxic, so machining requires strict safety controls.",
+    micro:"beryllium_copper_grains" },
+  { id:"aluminum-bronze", symbol:"Cu-Al", name:"Aluminum Bronze", subtitle:"High-Strength Wear-Resistant", type:"copper_alloy",
+    desc:"Copper alloyed with 5–12% aluminum, often with iron and nickel additions. Exceptional combination of strength, hardness, wear resistance, and corrosion resistance. Has a golden color resembling gold alloys.",
+    uses:["Gears & Worm Wheels","Marine Propellers","Pump Impellers","Valve Seats","Bushings & Bearings","Offshore Structural Components"],
+    properties:{"Aluminum Content":"5–12%","Tensile Strength":"500–900 MPa","Hardness":"130–250 HB","Corrosion":"Seawater Resistant"},
+    grades:"C62400 (11% Al): high strength. C63000 (Al-Ni): nickel-aluminum bronze for propellers. C95400: cast aluminum bronze. C63200: marine grade with Ni addition.",
+    millRole:"Aluminum bronze bushings and wear plates are used in continuous casting machine segments, pinch roll assemblies, and hot mill guide systems where corrosion and wear resistance are both needed.",
+    studentNote:"Aluminum bronze looks like gold and is used in 'gold' medals and award statuettes — it's not actually gold, but it has the appearance, corrosion resistance, and wear resistance at a fraction of the price.",
+    micro:"aluminum_bronze_grains" },
+  { id:"naval-brass", symbol:"Cu-Zn-Sn", name:"Naval Brass", subtitle:"Marine-Grade Brass C46400", type:"copper_alloy",
+    desc:"A dezincification-resistant brass: 60% copper, 39.25% zinc, 0.75% tin. The tin addition greatly improves resistance to the selective leaching of zinc (dezincification) in seawater environments.",
+    uses:["Marine Hardware","Condenser Plates","Pump Shafts","Valve Stems","Propeller Shafts","Rudder Bearings"],
+    properties:{"Copper Content":"60%","Zinc Content":"~39%","Tin Content":"0.75%","Dezincification":"Resistant"},
+    grades:"C46400 (Uninhibited Naval Brass). C46500 (+ As): arsenical, better dezincification resistance. C46700 (+ Sb): antimony inhibited. Hot-worked form is common.",
+    millRole:"Naval brass is specified for seawater-cooled heat exchangers and pump components in coastal steel plants. Also used for propeller shaft sleeves on ships delivering raw materials to port-side mills.",
+    studentNote:"Regular brass can 'dezincify' in seawater — the zinc leaches out, leaving a porous copper sponge. Adding even 0.75% tin prevents this, which is the entire reason Naval Brass exists.",
+    micro:"brass_grains" },
+];
+
+const ALL_METALS = [...FERROUS, ...NONFERROUS, ...COPPER_ALLOYS];
 
 const MILL_STEPS = [
   { id:"blast", icon:"🔥", name:"Blast Furnace", temp:"~1500°C", fullName:"Blast Furnace / EAF",
@@ -409,6 +471,11 @@ const QUIZ_POOL = [
   { q:"Which finishing line process electrolytically coats steel strip with tin for food cans?", metal:"tin", opts:["Galvanizing","Galvalume","Electrolytic tinning","Hard chrome plating"], ans:2, exp:"Electrolytic tinning lines deposit 1–11 g/m² of tin on cold-rolled strip through electrochemical deposition from a stannous sulfate bath — this creates tin plate for food cans." },
   { q:"What distinguishes wrought iron from cast iron and steel?", metal:"wrought-iron", opts:["Wrought iron has the highest carbon content","Wrought iron contains slag inclusions giving it a fibrous grain","Wrought iron is made in an electric arc furnace","Wrought iron cannot be welded"], ans:1, exp:"Wrought iron (<0.1% C) contains silicate slag inclusions that create a wood-like fibrous grain. This actually improves corrosion resistance compared to early steels." },
   { q:"Niobium (Nb) is classified as a microalloying element. What does it primarily do in HSLA steels?", metal:"alloy-steel", opts:["Acts as a powerful deoxidizer","Provides grain refinement and precipitation strengthening","Increases electrical conductivity","Replaces carbon for hardness"], ans:1, exp:"Niobium additions of 0.01–0.1% form fine NbC/NbN precipitates that pin austenite grain boundaries during rolling, producing finer ferrite grains and higher strength in as-rolled condition." },
+  { q:"What is 'cartridge brass' (C26000) and why is it called that?", metal:"brass", opts:["A brass coated with chromium for shine","70% Cu / 30% Zn alloy named for its use in ammunition cartridges","A pure copper sheet used in cartridge printing","60% Cu / 40% Zn alloy developed for military use"], ans:1, exp:"C26000 (70/30 brass) is named for ammunition cartridges — its excellent cold-working ability allows deep drawing into the precise cylindrical cup shape of a rifle or pistol cartridge without cracking." },
+  { q:"What does phosphorus addition achieve in phosphor bronze (C51000)?", metal:"phosphor-bronze", opts:["Increases zinc content for corrosion resistance","Acts as a deoxidizer and strengthens the alloy for better spring properties","Lowers the melting point for easier casting","Adds magnetic properties for sensor applications"], ans:1, exp:"Phosphorus (up to 0.35%) deoxidizes the melt and forms fine Cu₃P precipitates that enhance strength, hardness, and fatigue resistance — making phosphor bronze ideal for springs and connectors." },
+  { q:"Why is cupronickel (90/10) preferred over brass for marine heat exchangers?", metal:"cupronickel", opts:["Higher tensile strength than brass","Resistance to dezincification and biofouling in seawater","Lower cost due to less copper content","Magnetic properties for easy inspection"], ans:1, exp:"Cupronickel resists both dezincification (the selective leaching of zinc that weakens brass in seawater) and biofouling (marine organisms) — making it the standard material for seawater-cooled heat exchangers and condenser tubing." },
+  { q:"What makes beryllium copper (C17200) unique among copper alloys?", metal:"beryllium-copper", opts:["It is the most corrosion-resistant copper alloy","It achieves steel-level strength (>1400 MPa) after age hardening while remaining non-magnetic and non-sparking","It has the highest electrical conductivity of all copper alloys","It contains no beryllium — the name is historical"], ans:1, exp:"Beryllium copper age hardens through precipitation of CuBe and Cu₂Be intermetallics at ~315°C, reaching tensile strengths >1400 MPa — the highest of all copper alloys — while maintaining good conductivity, being non-magnetic, and non-sparking in explosive atmospheres." },
+  { q:"What is 'dezincification' and which copper alloy was specifically designed to resist it?", metal:"naval-brass", opts:["Oxidation of zinc on brass surfaces — resisted by phosphor bronze","Selective leaching of zinc from brass in seawater leaving a porous copper sponge — resisted by Naval Brass (C46400)","A heat treatment that removes zinc — resisted by aluminum bronze","Zinc evaporation during casting — resisted by cupronickel"], ans:1, exp:"Dezincification occurs when zinc preferentially dissolves from brass in seawater, leaving a weakened copper shell. Naval Brass (C46400) adds 0.75% tin to inhibit this electrochemical process, making it the standard choice for marine hardware." },
 ];
 
 // ─── MICROSTRUCTURE SVG ───────────────────────────────────────────────────────
@@ -422,7 +489,9 @@ function MicrostructureSVG({ metalId, width = 260, height = 105 }) {
     "maraging-steel":"martensite","aluminum":"aluminum_grains","copper":"copper_grains","nickel":"nickel_grains",
     "titanium":"titanium_grains","zinc":"zinc_grains","lead":"lead_grains","tungsten":"tungsten_grains",
     "magnesium":"magnesium_grains","cobalt":"cobalt_grains","tin":"tin_grains","chromium":"chromium_grains",
-    "molybdenum":"molybdenum_grains"
+    "molybdenum":"molybdenum_grains",
+    "brass":"brass_grains","phosphor-bronze":"bronze_grains","cupronickel":"cupronickel_grains",
+    "beryllium-copper":"beryllium_copper_grains","aluminum-bronze":"aluminum_bronze_grains","naval-brass":"brass_grains"
   }[metalId] || "pearlite_ferrite";
 
   const configs = {
@@ -445,6 +514,11 @@ function MicrostructureSVG({ metalId, width = 260, height = 105 }) {
     tin_grains:{ bg:"#0a0c0a", grainColor:"#141814", lineColor:"#406040", accent:"#80c080", label:"Tin Grains (β phase)", labelColor:"#90d090" },
     chromium_grains:{ bg:"#0c0808", grainColor:"#1e1010", lineColor:"#703020", accent:"#d06040", label:"Chromium Grains", labelColor:"#e07050" },
     molybdenum_grains:{ bg:"#080c10", grainColor:"#101820", lineColor:"#284870", accent:"#5080b0", label:"Molybdenum Grains", labelColor:"#6090c0" },
+    brass_grains:{ bg:"#0e0b04", grainColor:"#1e1608", lineColor:"#806020", accent:"#c8a040", label:"Brass α+β Grains", labelColor:"#d4aa48" },
+    bronze_grains:{ bg:"#100a04", grainColor:"#200e06", lineColor:"#784020", accent:"#b87040", label:"Bronze (α-Cu) Grains", labelColor:"#c07840" },
+    cupronickel_grains:{ bg:"#0c0a08", grainColor:"#1c1610", lineColor:"#786040", accent:"#c8a070", label:"Cupronickel Grains", labelColor:"#d0a878" },
+    beryllium_copper_grains:{ bg:"#100804", grainColor:"#201008", lineColor:"#904820", accent:"#e07030", label:"Be-Cu Precipitate Hardened", labelColor:"#e88040" },
+    aluminum_bronze_grains:{ bg:"#0c0a04", grainColor:"#1a1406", lineColor:"#706010", accent:"#b89020", label:"Aluminum Bronze Grains", labelColor:"#c0a030" },
   };
 
   const cfg = configs[microType] || configs.pearlite_ferrite;
@@ -841,13 +915,14 @@ export default function MetalogyApp() {
               Know Your <span style={{ color:"var(--or)" }}>Metals</span>
             </h1>
             <p style={{ color:"var(--mu)", maxWidth:460, margin:"0 auto 1.3rem", fontSize:".92rem", lineHeight:1.6, fontWeight:300 }}>
-              20 metals — ferrous and nonferrous — with names, properties, grades, microstructures, and steel mill applications.
+              26 metals — ferrous, non-ferrous, and copper alloys — with names, properties, grades, microstructures, and steel mill applications.
             </p>
             <div style={{ display:"flex", justifyContent:"center", gap:"1.8rem", flexWrap:"wrap" }}>
               {[
                 { n:ALL_METALS.length, l:"Metals" },
                 { n:FERROUS.length, l:"Ferrous" },
                 { n:NONFERROUS.length, l:"Non-Ferrous" },
+                { n:COPPER_ALLOYS.length, l:"Cu-Alloys" },
                 { n:progress.studied.length, l:"Studied" },
               ].map(s => (
                 <div key={s.l} style={{ textAlign:"center" }}>
@@ -861,8 +936,13 @@ export default function MetalogyApp() {
           <div className="sbar">
             <input className="sinput" placeholder="Search metals or applications..." value={search} onChange={e => setSearch(e.target.value)} />
             <div className="fbtns">
-              {["all","ferrous","nonferrous"].map(f => (
-                <button key={f} className={`fbtn${filter===f?" active":""}`} onClick={() => setFilter(f)}>{f}</button>
+              {[
+                { id:"all", label:"All" },
+                { id:"ferrous", label:"Ferrous" },
+                { id:"nonferrous", label:"Non-Ferrous" },
+                { id:"copper_alloy", label:"Copper Alloys" },
+              ].map(f => (
+                <button key={f.id} className={`fbtn${filter===f.id?" active":""}`} onClick={() => setFilter(f.id)}>{f.label}</button>
               ))}
             </div>
           </div>
@@ -880,6 +960,15 @@ export default function MetalogyApp() {
             <div className="sh"><span className="stag tnf">Non-Ferrous</span><span className="stitle">No-Iron Metals</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>No Iron (Fe) Base</span></div>
             <div className="grid">
               {displayMetals.filter(m=>m.type==="nonferrous").map(m => (
+                <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
+              ))}
+            </div>
+          </>}
+
+          {(filter==="all"||filter==="copper_alloy") && <>
+            <div className="sh"><span className="stag tcp">Copper Alloys</span><span className="stitle">Copper-Based Alloys</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>Cu-Base Engineering Alloys</span></div>
+            <div className="grid">
+              {displayMetals.filter(m=>m.type==="copper_alloy").map(m => (
                 <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
               ))}
             </div>
@@ -967,17 +1056,18 @@ export default function MetalogyApp() {
           <div className="cgrid">
             {[[metalA, compareA, setCompareA, "Metal A"], [metalB, compareB, setCompareB, "Metal B"]].map(([panel, sel, setSel, label]) => (
               <div key={label} className="cpanel">
-                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":"var(--nf)" }}>{label}: {panel?.name}</h3>
+                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":panel?.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{label}: {panel?.name}</h3>
                 <select className="csel" value={sel} onChange={e => setSel(e.target.value)}>
                   <optgroup label="── Ferrous ──">{FERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Non-Ferrous ──">{NONFERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
+                  <optgroup label="── Copper Alloys ──">{COPPER_ALLOYS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                 </select>
                 {panel && <>
-                  <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":"var(--nf)" }}>{panel.type}</span></div>
+                  <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":panel.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{panel.type==="copper_alloy"?"Cu-Alloy":panel.type}</span></div>
                   {Object.entries(panel.properties).map(([k,v]) => (
                     <div key={k} className="crow"><span className="clabel">{k}</span><span className="cval">{v}</span></div>
                   ))}
-                  <div style={{ marginTop:".7rem", padding:"8px", background:"rgba(0,0,0,.25)", borderRadius:4, fontSize:".8rem", color:"var(--mu)", lineHeight:1.5 }}>{panel.desc}</div>
+                  <div style={{ marginTop:".7rem", padding:"8px", background:"rgba(10,22,12,.4)", borderRadius:4, fontSize:".8rem", color:"var(--mu)", lineHeight:1.5 }}>{panel.desc}</div>
                   <div style={{ marginTop:".6rem" }}>
                     <div style={{ fontSize:".65rem", color:"var(--mu)", textTransform:"uppercase", letterSpacing:".08em", marginBottom:".3rem", fontFamily:"'Share Tech Mono',monospace" }}>Key Uses</div>
                     <div style={{ display:"flex", flexWrap:"wrap", gap:".3rem" }}>
@@ -1003,7 +1093,7 @@ export default function MetalogyApp() {
                   { l:"Density", a:metalA.properties["Density"]||"—", b:metalB.properties["Density"]||"—" },
                   { l:"Melting Point", a:metalA.properties["Melting Point"]||"—", b:metalB.properties["Melting Point"]||"—" },
                 ].map(row => (
-                  <div key={row.l} style={{ background:"rgba(0,0,0,.3)", border:"1px solid var(--bd)", borderRadius:5, padding:"9px 11px" }}>
+                  <div key={row.l} style={{ background:"rgba(10,22,12,.42)", border:"1px solid var(--bd)", borderRadius:5, padding:"9px 11px" }}>
                     <div style={{ fontSize:".63rem", color:"var(--mu)", textTransform:"uppercase", letterSpacing:".08em", fontFamily:"'Share Tech Mono',monospace", marginBottom:"5px" }}>{row.l}</div>
                     <div style={{ fontSize:".8rem" }}>
                       <span style={{ color:"var(--fe)" }}>{metalA.name.split(" ")[0]}: <strong style={{ color:"var(--tx)" }}>{row.a}</strong></span>
@@ -1032,7 +1122,7 @@ export default function MetalogyApp() {
                   />
                 </div>
                 <div className="fbtns" style={{ marginBottom:"1rem" }}>
-                  {[["all","All Metals"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"]].map(([val, label]) => (
+                  {[["all","All Metals"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"],["copper_alloy","Cu-Alloys"]].map(([val, label]) => (
                     <button key={val} className={`fbtn ${quizMetalFilter===val?"active":""}`} onClick={() => setQuizMetalFilter(val)}>
                       {label}
                     </button>
@@ -1190,7 +1280,7 @@ function MetalCard({ metal, expanded, onToggle, level, studied }) {
       {studied && <div className="studied-dot">✓</div>}
       <div className="ctop">
         <span className="msym">{metal.symbol}</span>
-        <span className={`cbadge ${metal.type==="ferrous"?"tfe":"tnf"}`}>{metal.type}</span>
+        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type}</span>
       </div>
       <div className="mname">{metal.name}</div>
       <div className="msub">{metal.subtitle}</div>
