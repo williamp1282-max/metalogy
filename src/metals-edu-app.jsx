@@ -51,7 +51,8 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 /* CARDS */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1rem;margin-bottom:2.5rem;}
 .mcard{background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:1.1rem;transition:all .25s;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
-.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.mcard-img{display:block;width:calc(100% + 2.2rem);margin:-1.1rem -1.1rem .9rem;height:152px;object-fit:cover;flex-shrink:0;}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;z-index:1;}
 .mcard.ferrous::before{background:linear-gradient(90deg,var(--fe) 0%,rgba(196,72,32,0) 75%);}
 .mcard.nonferrous::before{background:linear-gradient(90deg,var(--nf) 0%,rgba(8,120,160,0) 75%);}
 .mcard.copper_alloy::before{background:linear-gradient(90deg,var(--cp) 0%,rgba(160,104,40,0) 75%);}
@@ -193,6 +194,7 @@ const FERROUS = [
     grades:"Comes in grades based on sulfur/phosphorus content. Basic pig iron (low P) goes to steelmaking; foundry grade (higher Si) goes to casting.",
     millRole:"First product of the blast furnace. Pig iron is the direct output of smelting iron ore with coke and limestone. It feeds both BOF steelmaking and foundry operations.",
     studentNote:"Think of pig iron as 'raw' iron — too brittle to use directly, but the starting point for everything.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Pig_iron.jpg/330px-Pig_iron.jpg",
     micro:"ferrite_graphite" },
   { id:"carbon-steel", symbol:"CS", name:"Carbon Steel", subtitle:"Iron + Carbon Alloy", type:"ferrous",
     desc:"The most widely used engineering material. Carbon content (0.05–2.0%) controls hardness, strength, and weldability. Low-carbon is soft and formable; high-carbon is hard and wear-resistant.",
@@ -201,6 +203,7 @@ const FERROUS = [
     grades:"Low-carbon (1008–1025): structural, stampings. Medium (1030–1060): gears, shafts. High (1080–1095): springs, blades. Common grades: AISI 1018, 1045, 1095.",
     millRole:"Primary output of BOF and EAF steelmaking. Cast into slabs/blooms then rolled in hot strip mills or plate mills into final product.",
     studentNote:"More carbon = harder but more brittle. Less carbon = softer but easier to weld and form.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/A_bunch_of_rebar.jpg/330px-A_bunch_of_rebar.jpg",
     micro:"pearlite_ferrite" },
   { id:"stainless-steel", symbol:"SS", name:"Stainless Steel", subtitle:"Chromium Steel Alloy", type:"ferrous",
     desc:"Contains minimum 10.5% chromium, which forms a passive oxide layer that resists corrosion. Available in austenitic, ferritic, martensitic, and duplex families.",
@@ -209,6 +212,7 @@ const FERROUS = [
     grades:"304/316: Austenitic (most common). 410/420: Martensitic (cutlery, tools). 430: Ferritic (automotive trim). 2205: Duplex (pressure vessels).",
     millRole:"Produced in AOD (Argon Oxygen Decarburization) vessels. Requires careful carbon reduction to avoid carbide precipitation.",
     studentNote:"The chromium acts like an invisible shield — oxygen in air reacts with chromium first, forming a protective skin over the iron.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Besteck_WMF_Stockholm_ca_1960er.jpg/330px-Besteck_WMF_Stockholm_ca_1960er.jpg",
     micro:"austenite" },
   { id:"cast-iron", symbol:"CI", name:"Cast Iron", subtitle:"High-Carbon Iron", type:"ferrous",
     desc:"Carbon content above 2.1% makes this too brittle to roll or forge — but it pours well and is excellent under compression. Gray, white, ductile, and malleable variants each have distinct properties.",
@@ -217,6 +221,7 @@ const FERROUS = [
     grades:"Gray: graphite flakes, good vibration damping. White: hard, wear-resistant. Ductile (nodular): tougher, bendable. Malleable: heat-treated for ductility.",
     millRole:"Used for mill rolls, bearing housings, and equipment bases throughout the plant due to vibration damping and compressive strength.",
     studentNote:"Cast iron is like over-carbonized steel — the extra carbon forms graphite flakes that are great for frying pans and engine blocks!",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/330px-Cast-Iron-Pan.jpg",
     micro:"gray_iron" },
   { id:"alloy-steel", symbol:"AS", name:"Alloy Steel", subtitle:"Multi-Element Steel", type:"ferrous",
     desc:"Carbon steel with deliberate additions of chromium, nickel, molybdenum, vanadium, or manganese to enhance specific properties like hardenability, toughness, or creep resistance.",
@@ -225,6 +230,7 @@ const FERROUS = [
     grades:"4140 (Cr-Mo): gears, axles. 4340 (Ni-Cr-Mo): aircraft parts. 8620: case-hardening. 52100: bearings.",
     millRole:"Produced in EAF with precise ladle metallurgy additions. Requires controlled cooling in bar/rod mills.",
     studentNote:"Think of alloying elements as 'ingredients' — each adds a different property. Chromium adds corrosion resistance; nickel adds toughness.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/%D0%90%D1%80%D0%BC%D0%B0%D1%82%D1%83%D1%80%D0%BD%D1%8B%D0%B9_%D0%BF%D1%80%D0%BE%D0%BA%D0%B0%D1%82.jpg/330px-%D0%90%D1%80%D0%BC%D0%B0%D1%82%D1%83%D1%80%D0%BD%D1%8B%D0%B9_%D0%BF%D1%80%D0%BE%D0%BA%D0%B0%D1%82.jpg",
     micro:"bainite" },
   { id:"tool-steel", symbol:"TS", name:"Tool Steel", subtitle:"Hardened Working Steel", type:"ferrous",
     desc:"Highly alloyed steels designed to cut, shape, or form other materials. Must maintain hardness at elevated temperatures and resist wear, deformation, and shock.",
@@ -233,6 +239,7 @@ const FERROUS = [
     grades:"H13: hot work dies. D2: cold work dies. M2: high-speed cutting. W1: water-hardening files. A2: air-hardening.",
     millRole:"Used in rolling mill work rolls, edger rolls, and hot-work tooling. H13 contacts 1000°C+ steel.",
     studentNote:"Tool steels are the 'tools that make everything else.' An M2 drill bit stays hard because tungsten and molybdenum keep it hard when hot.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Drillbits.jpg/330px-Drillbits.jpg",
     micro:"martensite" },
   { id:"wrought-iron", symbol:"WI", name:"Wrought Iron", subtitle:"Slag-Containing Iron", type:"ferrous",
     desc:"Nearly pure iron (<0.1% C) with slag inclusions (fibrous silicates) that give it a fibrous, wood-like grain. Highly ductile and corrosion resistant. Largely replaced by steel but still used in decorative work.",
@@ -241,6 +248,7 @@ const FERROUS = [
     grades:"Wrought iron is not graded in modern standards. Historical puddled iron vs. modern wrought iron differ in slag content.",
     millRole:"Predates modern steelmaking. The slag inclusions actually make wrought iron more corrosion-resistant than early steels — used in historic bridges still standing today.",
     studentNote:"Think of wrought iron like wood — it has a grain due to slag fibers, can be shaped by a blacksmith, and doesn't rust as fast as plain iron.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Balcon_d%27un_immeuble_parisien.jpg/330px-Balcon_d%27un_immeuble_parisien.jpg",
     micro:"ferrite_slag" },
   { id:"maraging-steel", symbol:"MS", name:"Maraging Steel", subtitle:"Ultra-High Strength Steel", type:"ferrous",
     desc:"Ultra-low-carbon steel (< 0.03% C) hardened by precipitation of intermetallic compounds rather than carbon. Achieves tensile strengths >2000 MPa with reasonable toughness. Marage = martensite + aging.",
@@ -249,6 +257,7 @@ const FERROUS = [
     grades:"Grade 200, 250, 300, 350 (MPa yield strength). C300 is most common: 18Ni-8.5Co-4.8Mo-0.4Ti.",
     millRole:"Used in precision tooling, mold inserts, and high-stress components. Valued for high polishability and dimensional stability during aging treatment.",
     studentNote:"Maraging steel gets hard through a completely different mechanism than regular steel — not carbon, but tiny metal 'needles' that form during low-temperature aging.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/RS-68_rocket_engine_test.jpg/330px-RS-68_rocket_engine_test.jpg",
     micro:"martensite" },
 ];
 
@@ -260,6 +269,7 @@ const NONFERROUS = [
     grades:"1xxx: pure Al (electrical). 2xxx: Cu alloy (aerospace). 3xxx: Mn alloy (cans). 5xxx: Mg alloy (marine). 6061: structural. 7075: highest strength.",
     millRole:"Used in steel mill crane components and electrical bus bars. Aluminum deoxidation is a critical ladle metallurgy step in steelmaking.",
     studentNote:"Aluminum's low density (about 1/3 of steel) is why aircraft frames and car hoods use it — same strength for much less weight.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Aluminium-4.jpg/330px-Aluminium-4.jpg",
     micro:"aluminum_grains" },
   { id:"copper", symbol:"Cu", name:"Copper", subtitle:"Premier Electrical Conductor", type:"nonferrous",
     desc:"The best practical electrical and thermal conductor after silver. Antimicrobial, highly ductile, and naturally soft. The basis of brass (Cu-Zn) and bronze (Cu-Sn) alloys.",
@@ -268,6 +278,7 @@ const NONFERROUS = [
     grades:"C11000: electrolytic tough pitch (wiring). C10100: oxygen-free (electronics). C26000: cartridge brass. C51000: phosphor bronze.",
     millRole:"Mold copper plates are the inner lining of continuous casters — copper's thermal conductivity rapidly solidifies molten steel into slabs.",
     studentNote:"Copper's IACS rating is the baseline for electrical conductivity — it IS 100%. Everything else is measured relative to copper.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/NatCopper.jpg/330px-NatCopper.jpg",
     micro:"copper_grains" },
   { id:"nickel", symbol:"Ni", name:"Nickel", subtitle:"Corrosion & Heat Resistant", type:"nonferrous",
     desc:"Silvery-white metal with excellent corrosion resistance, especially in alkaline environments. A critical alloying element in stainless steel. Superalloys based on nickel operate above 1000°C.",
@@ -276,6 +287,7 @@ const NONFERROUS = [
     grades:"Commercially pure Ni (200/201). Monel (Ni-Cu): seawater. Inconel 625/718: jet engines. Hastelloy C: chemical processing.",
     millRole:"Critical alloying addition in austenitic stainless steels and high-nickel alloys used in pickling tanks and acid-resistant piping.",
     studentNote:"Without nickel, jet engines couldn't operate at today's temperatures. Nickel superalloys exceed their nominal melting point using cooling holes.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Nickel_electrolytic_and_1cm3_cube.jpg/330px-Nickel_electrolytic_and_1cm3_cube.jpg",
     micro:"nickel_grains" },
   { id:"titanium", symbol:"Ti", name:"Titanium", subtitle:"Strength-to-Weight Champion", type:"nonferrous",
     desc:"Best strength-to-weight ratio of any structural metal. Biocompatible, corrosion-resistant in seawater and body fluids, and maintains strength at moderately high temperatures.",
@@ -284,6 +296,7 @@ const NONFERROUS = [
     grades:"Grade 1-4: commercially pure. Ti-6Al-4V (Grade 5): aerospace workhorse. Beta alloys: high-strength fasteners.",
     millRole:"Used as a microalloying addition in ultra-low-carbon (ULC) steels for automotive deep-drawing applications.",
     studentNote:"Ti-6Al-4V is one of engineering's most successful alloys — hip replacements, bicycle frames, aircraft, and watches all use it.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Titan-crystal_bar.JPG/330px-Titan-crystal_bar.JPG",
     micro:"titanium_grains" },
   { id:"zinc", symbol:"Zn", name:"Zinc", subtitle:"Galvanizing & Alloying Metal", type:"nonferrous",
     desc:"Primarily used to galvanize (coat) steel for corrosion protection. When zinc contacts steel, it acts as a sacrificial anode — it corrodes instead of the steel beneath it.",
@@ -292,6 +305,7 @@ const NONFERROUS = [
     grades:"Special High Grade (SHG): 99.995% pure for galvanizing. Zamak alloys: die casting. Brass (Cu-Zn): various compositions.",
     millRole:"Hot-dip galvanizing lines are a major product at flat-rolled steel mills. Strip passes through molten zinc at ~450°C.",
     studentNote:"Zinc's sacrificial protection is electrochemical — zinc has a more negative electrode potential than iron, so it 'wants' to corrode first.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Zinc_fragment_sublimed_and_1cm3_cube.jpg/330px-Zinc_fragment_sublimed_and_1cm3_cube.jpg",
     micro:"zinc_grains" },
   { id:"lead", symbol:"Pb", name:"Lead", subtitle:"Dense & Radiation-Shielding", type:"nonferrous",
     desc:"Extremely dense, soft metal with a very low melting point. Excellent for radiation shielding, vibration damping, and sound attenuation. Now largely replaced in many applications due to toxicity.",
@@ -300,6 +314,7 @@ const NONFERROUS = [
     grades:"Chemical lead (99.9%): chemical plant. Antimonial lead: batteries. Terne (Pb-Sn): roofing.",
     millRole:"Historically added to free-machining steel to improve machinability. Largely phased out. Lead lining protects x-ray rooms in mill labs.",
     studentNote:"Lead's density (2x iron!) makes it an excellent radiation blocker — dense atomic nuclei intercept x-rays and gamma rays.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Lead_electrolytic_and_1cm3_cube.jpg/330px-Lead_electrolytic_and_1cm3_cube.jpg",
     micro:"lead_grains" },
   { id:"tungsten", symbol:"W", name:"Tungsten", subtitle:"Highest Melting Point Metal", type:"nonferrous",
     desc:"Tungsten has the highest melting point of all metals (3422°C) and highest tensile strength at elevated temperatures. Extremely dense and hard. Used where nothing else survives.",
@@ -308,6 +323,7 @@ const NONFERROUS = [
     grades:"W1 (pure): electrical contacts. WC (tungsten carbide): cutting tools and wear parts. W-Ni-Fe: radiation shielding and ballast.",
     millRole:"Tungsten carbide (WC-Co) is the primary material for rolling mill guide inserts, edger rolls, and wear-resistant tooling throughout the mill.",
     studentNote:"Tungsten's melting point (3422°C) is so high it doesn't melt until you're almost halfway to the surface temperature of the sun!",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Wolfram_evaporated_crystals_and_1cm3_cube.jpg/330px-Wolfram_evaporated_crystals_and_1cm3_cube.jpg",
     micro:"tungsten_grains" },
   { id:"magnesium", symbol:"Mg", name:"Magnesium", subtitle:"Lightest Structural Metal", type:"nonferrous",
     desc:"The lightest structural metal at 1.74 g/cm³ — only 2/3 the density of aluminum. Good specific strength, naturally abundant, but highly flammable in fine powder form. Critical in steelmaking as a desulfurizer.",
@@ -316,6 +332,7 @@ const NONFERROUS = [
     grades:"AZ31 (Al-Zn): wrought sheet. AZ91: die casting. AM60: automotive. WE43: high-temp aerospace.",
     millRole:"Magnesium-lime (KR process) or magnesium cored wire injection is used in ladle desulfurization to reduce sulfur in liquid steel to <0.001%.",
     studentNote:"Magnesium burns with a brilliant white light — it's even used in flares and fireworks. But as a solid alloy, it's perfectly safe and incredibly light.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/CSIRO_ScienceImage_2893_Crystalised_magnesium.jpg/330px-CSIRO_ScienceImage_2893_Crystalised_magnesium.jpg",
     micro:"magnesium_grains" },
   { id:"cobalt", symbol:"Co", name:"Cobalt", subtitle:"Superalloy & Battery Metal", type:"nonferrous",
     desc:"Hard, magnetic metal with high melting point. Critical in superalloys (jet engines), cutting tools (WC-Co), battery cathodes (Li-Co), and permanent magnets. Strongly magnetic below 1115°C.",
@@ -324,6 +341,7 @@ const NONFERROUS = [
     grades:"Commercially pure Co. Stellite (Co-Cr-W): wear-resistant hard-facing. MAR-M 509: superalloy. Li-Co oxide: battery cathode.",
     millRole:"Cobalt-based hard-facing alloys (Stellite) are applied to valve seats, wear plates, and guides in hot strip mills and continuous casting areas.",
     studentNote:"Cobalt is in nearly every smartphone battery (as LiCoO₂) and in the alloys that keep jet engines spinning at 1400°C. One metal, two very different worlds.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Kobalt_electrolytic_and_1cm3_cube.jpg/330px-Kobalt_electrolytic_and_1cm3_cube.jpg",
     micro:"cobalt_grains" },
   { id:"tin", symbol:"Sn", name:"Tin", subtitle:"Coating & Soldering Metal", type:"nonferrous",
     desc:"Low-melting, corrosion-resistant metal. At room temperature, tin exists as white β-tin; below 13°C it slowly converts to gray α-tin (tin pest). Critical for food cans (tin plate) and soldering.",
@@ -332,6 +350,7 @@ const NONFERROUS = [
     grades:"Grade A tin (99.85%): electrolytic tinplating. 63/37 Sn-Pb solder (melts at 183°C). Lead-free solder: Sn-Ag-Cu (SAC305).",
     millRole:"Electrolytic tinning lines coat cold-rolled strip with 1–11 g/m² of tin for food packaging. A major finishing line product in integrated steel mills.",
     studentNote:"The reason canned food stays fresh for years is a microscopic layer of tin — less than 0.001mm thick — that stops the steel from rusting and contaminating the food.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Sn-Alpha-Beta.jpg/330px-Sn-Alpha-Beta.jpg",
     micro:"tin_grains" },
   { id:"chromium", symbol:"Cr", name:"Chromium", subtitle:"Hardness & Corrosion Resistance", type:"nonferrous",
     desc:"Hard, lustrous, steel-grey metal. The defining element in stainless steel (corrosion resistance) and hard chromium plating (wear resistance). Also critical in superalloys for high-temperature strength.",
@@ -340,6 +359,7 @@ const NONFERROUS = [
     grades:"Electrolytic chromium (99.9%+). Ferrochromium (FeCr): steelmaking alloy addition. HC FeCr (high carbon) and LC FeCr (low carbon) grades.",
     millRole:"Added as ferrochromium (FeCr) in the ladle or furnace for stainless steel production. Also used in hard chrome plating of mill rolls for surface finish.",
     studentNote:"Chromium is what makes stainless steel 'stainless.' Without chromium, your kitchen knives and medical tools would rust within hours of contact with water.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Chromium_crystals_and_1cm3_cube.jpg/330px-Chromium_crystals_and_1cm3_cube.jpg",
     micro:"chromium_grains" },
   { id:"molybdenum", symbol:"Mo", name:"Molybdenum", subtitle:"High-Temp Strength Booster", type:"nonferrous",
     desc:"Refractory metal with very high melting point (2623°C). Dramatically improves high-temperature strength, creep resistance, and hardenability in steels at relatively low addition levels (0.15–5%).",
@@ -348,6 +368,7 @@ const NONFERROUS = [
     grades:"Commercially pure Mo: heating elements. FeMo (ferromolybdenum): steel addition. MoS₂: solid lubricant for extreme conditions.",
     millRole:"Added as ferromolybdenum in ladle metallurgy for creep-resistant pressure vessel steels, pipeline steels, and high-speed tool steels. Also used in furnace heating elements.",
     studentNote:"MoS₂ (molybdenum disulfide) is a dry lubricant used in space because conventional oils freeze or evaporate in the vacuum. The same chemistry keeps drill bits from seizing at high speeds.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Molybdenum_crystaline_fragment_and_1cm3_cube.jpg/330px-Molybdenum_crystaline_fragment_and_1cm3_cube.jpg",
     micro:"molybdenum_grains" },
 ];
 
@@ -1360,6 +1381,7 @@ export default function MetalogyApp() {
 function MetalCard({ metal, expanded, onToggle, level, studied }) {
   return (
     <div className={`mcard ${metal.type}${expanded?" exp":""}`}>
+      {metal.img && <img src={metal.img} alt={metal.name} className="mcard-img" />}
       {studied && <div className="studied-dot">✓</div>}
       <div className="ctop">
         <span className="msym">{metal.symbol}</span>
