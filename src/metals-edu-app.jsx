@@ -409,10 +409,14 @@ const COPPER_ALLOYS = [
 const ALL_METALS = [...FERROUS, ...NONFERROUS, ...COPPER_ALLOYS];
 
 const MILL_STEPS = [
-  { id:"blast", icon:"🔥", name:"Blast Furnace", temp:"~1500°C", fullName:"Blast Furnace / EAF",
-    desc:"Iron ore, coke, and limestone are charged from the top. Hot blast air at ~1200°C is injected at tuyeres, creating temperatures >2000°C in the combustion zone. Liquid pig iron and slag are tapped from the bottom. Electric Arc Furnaces (EAF) alternatively melt scrap using 3 graphite electrodes drawing ~100MW.",
-    metals:["Iron ore (Fe₂O₃/Fe₃O₄)","Coke (carbon reductant)","Limestone (CaCO₃ slag former)","Scrap steel (EAF route)","Pulverized coal injection (PCI)"],
+  { id:"blast", icon:"🔥", name:"Blast Furnace", temp:"~1500°C", fullName:"Blast Furnace (BF) — Integrated Route",
+    desc:"Iron ore, coke, and limestone are charged from the top. Hot blast air at ~1200°C is injected at tuyeres, creating temperatures >2000°C in the combustion zone. Carbon monoxide reduces iron oxides to liquid iron. Liquid pig iron (~4% C) and slag are tapped from the bottom every 4–6 hours. Pulverized coal injection (PCI) supplements coke to reduce fuel costs.",
+    metals:["Iron ore (Fe₂O₃/Fe₃O₄)","Coke (carbon reductant)","Limestone (CaCO₃ slag former)","Pulverized coal injection (PCI)","Hot blast air (1150–1250°C)"],
     output:"Liquid pig iron at ~4% C, ~0.5% Si, ~0.3% Mn, 0.03% S" },
+  { id:"eaf", icon:"⚡", name:"Arc Furnace", temp:"1600–1650°C", fullName:"Electric Arc Furnace (EAF) — Scrap Route",
+    desc:"Three ultra-high-power (UHP) graphite electrodes strike arcs at up to 40,000°C to melt a 100–200 t charge of scrap steel in 40–65 minutes. Chemical energy from oxygen lances, natural gas burners, and carbon injection supplements electrical energy. Foamy slag practice — injecting carbon to generate CO bubbles — insulates the arc and boosts efficiency by 10–15%. A ladle furnace (LF) follows for chemistry trimming and temperature control before continuous casting.",
+    metals:["Scrap steel — up to 100% of the charge","Graphite electrodes — UHP grade, 400–700 mm dia","Lime & dolomite — slag basicity control","Oxygen — decarburization and chemical energy","Carbon — foamy slag and recarburization","DRI / HBI — direct reduced iron (dilutes residuals)","FeMn, FeSi, FeCr, FeNi, FeMo — ladle alloy additions","Aluminum wire — deoxidation at tap"],
+    output:"Liquid steel at 1600–1650°C, tapped to ladle for LMF trim" },
   { id:"bof", icon:"💨", name:"BOF / Refining", temp:"~1650°C", fullName:"Basic Oxygen Furnace",
     desc:"Pure oxygen is blown at supersonic speeds into liquid pig iron through a water-cooled lance. This oxidizes excess carbon from ~4% to <0.05% in just 18–22 minutes. Lime is added to form slag. Ladle metallurgy stations (LF, VD, RH degasser) then fine-tune chemistry, temperature, and inclusion content.",
     metals:["Oxygen (oxidizer)","Lime/dolomite (flux)","Ferroalloys: FeMn, FeSi, FeV, FeCr","Aluminum wire (deoxidizer)","Magnesium (desulfurizer)"],
@@ -1008,6 +1012,89 @@ export default function MetalogyApp() {
                   <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".65rem", color:"var(--mu)", letterSpacing:".1em", textTransform:"uppercase", marginBottom:".5rem" }}>Output</div>
                   <div style={{ background:"rgba(160,96,208,.08)", border:"1px solid rgba(160,96,208,.25)", borderRadius:5, padding:"10px", fontSize:".84rem", color:"var(--tx)", lineHeight:1.55 }}>{activeStep.output}</div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── EAF DEEP-DIVE PANEL ── */}
+          {millStep === "eaf" && (
+            <div className="mdc" style={{ marginTop:".85rem" }}>
+              <h3>⚡ EAF Technical Breakdown</h3>
+
+              {/* Power & Performance grid */}
+              <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".63rem", color:"var(--mu)", letterSpacing:".12em", textTransform:"uppercase", marginBottom:".55rem" }}>Power &amp; Performance</div>
+              <div className="pgrid" style={{ gridTemplateColumns:"repeat(auto-fill,minmax(148px,1fr))", gap:".4rem", marginBottom:"1.1rem" }}>
+                {[
+                  { label:"Power Draw",      val:"60–150 MW" },
+                  { label:"Energy / Tonne",  val:"350–700 kWh/t" },
+                  { label:"Tap-to-Tap",      val:"40–65 min" },
+                  { label:"Heat Size",       val:"80–200 t" },
+                  { label:"Arc Temp",        val:"~3 000–40 000°C" },
+                  { label:"Bath Temp",       val:"1 580–1 650°C" },
+                ].map(x => (
+                  <div className="pi" key={x.label}>
+                    <div className="plabel">{x.label}</div>
+                    <div className="pval">{x.val}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* How it works */}
+              <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".63rem", color:"var(--mu)", letterSpacing:".12em", textTransform:"uppercase", marginBottom:".45rem" }}>How It Works</div>
+              <div className="ginfo" style={{ marginBottom:"1rem" }}>
+                Scrap is charged into the furnace vessel, often in two baskets. The roof swings back, the charge drops, then the roof closes and the three electrodes lower. Striking an arc between the electrode tips and the scrap generates intense Joule heating. As scrap melts the electrodes bore down toward the liquid bath — arc length is servo-controlled to maximise power input while protecting the shell. Oxygen is lanced into the bath to oxidise carbon and silicon, generating chemical heat that can supply 30–40% of total energy. Carbon powder is blown into the slag to create CO bubbles (foamy slag), which blanket the arc and cut electrode consumption by ~20%.
+              </div>
+
+              {/* Scrap & electrodes side-by-side */}
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:".9rem", marginBottom:"1rem" }}>
+                <div>
+                  <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".63rem", color:"var(--mu)", letterSpacing:".12em", textTransform:"uppercase", marginBottom:".45rem" }}>Role of Scrap Steel</div>
+                  {[
+                    "Primary iron source — replaces ore & coke entirely",
+                    "Grade sorting critical: low-residual scrap for quality flat products",
+                    "Residuals (Cu, Sn, Mo) are non-removable — scrap selection controls final chemistry",
+                    "DRI / HBI added to dilute residuals for demanding grades (automotive, electrical)",
+                    "Typical charge: 80–100% scrap + 0–20% DRI/HBI + hot metal (if available)",
+                  ].map(pt => (
+                    <div key={pt} style={{ fontSize:".81rem", padding:"5px 0", borderBottom:"1px solid rgba(42,47,61,.5)", color:"var(--tx)", lineHeight:1.45 }}>
+                      <span style={{ color:"var(--nf)", marginRight:6 }}>▸</span>{pt}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".63rem", color:"var(--mu)", letterSpacing:".12em", textTransform:"uppercase", marginBottom:".45rem" }}>Graphite Electrodes</div>
+                  {[
+                    "UHP (ultra-high-power) grade — pitch-impregnated, isostatically pressed",
+                    "Diameter: 400–700 mm; column length 1.5–2.4 m per segment",
+                    "Consumption: 1.5–2.5 kg per tonne of steel produced",
+                    "Arc tip temperature: ~3 000°C at surface, plasma core >10 000°C",
+                    "Nipple-joined columns auto-feed as electrodes oxidise and break",
+                  ].map(pt => (
+                    <div key={pt} style={{ fontSize:".81rem", padding:"5px 0", borderBottom:"1px solid rgba(42,47,61,.5)", color:"var(--tx)", lineHeight:1.45 }}>
+                      <span style={{ color:"var(--am)", marginRight:6 }}>▸</span>{pt}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Alloy additions */}
+              <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".63rem", color:"var(--mu)", letterSpacing:".12em", textTransform:"uppercase", marginBottom:".45rem" }}>Metals &amp; Alloys Added</div>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:".4rem" }}>
+                {[
+                  { el:"FeMn / SiMn",  note:"Deoxidation, sulphide shape control, hardenability" },
+                  { el:"FeSi",         note:"Deoxidation; silicon for electrical & spring steels" },
+                  { el:"FeCr / FeNi",  note:"Chromium & nickel for stainless and alloy grades" },
+                  { el:"FeMo",         note:"Creep & high-temp strength; pipeline & pressure grades" },
+                  { el:"FeV / FeNb",   note:"Microalloying grain refinement in HSLA steels" },
+                  { el:"Al wire",      note:"Final deoxidation at tap; AlN grain size control" },
+                  { el:"Carbon",       note:"Recarburisation to target; foamy slag generation" },
+                  { el:"DRI / HBI",    note:"Dilutes Cu/Sn residuals; clean iron unit source" },
+                ].map(a => (
+                  <div key={a.el} className="pi" style={{ display:"flex", alignItems:"flex-start", gap:8 }}>
+                    <span style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".78rem", color:"var(--ml)", whiteSpace:"nowrap", minWidth:68 }}>{a.el}</span>
+                    <span style={{ fontSize:".79rem", color:"var(--mu)", lineHeight:1.4 }}>{a.note}</span>
+                  </div>
+                ))}
               </div>
             </div>
           )}
