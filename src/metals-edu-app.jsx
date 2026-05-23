@@ -527,15 +527,6 @@ const SCRAP = [
 ];
 
 const NONCONF_SCRAP = [
-  { id:"oversized", symbol:"OVS", name:"Oversized Scrap", subtitle:"Exceeds Charge Bucket Dimensions", type:"nonconforming",
-    desc:"Steel sections that exceed the dimensional limits of the purchase spec — typically >36\" in any direction for a standard EAF charge bucket. The furnace roof must be opened and the bucket tipped to drop charge, so pieces too long bridge the opening and jam inside, preventing a clean drop.",
-    uses:["Bucket Bridging — Scrap Won't Drop","Electrode Collision Risk","Extended Heat Time","Torch-Cut at Extra Cost"],
-    properties:{"ISRI 200 Limit":"≤36\" × ≤18\"","Typical Oversize":"Beams, rails, plate >3m","Processing Cost":"$10–30/t surcharge","Detection":"Gate inspection + magnet crane"},
-    grades:"ISRI Grade 200 (HMS #1) specifies ≤36\" × ≤18\". Oversized is either returned to supplier, accepted at a price discount, or torch-cut by the yard. Some integrated mills have on-site shears for light-gauge oversized; heavy structural requires oxy-fuel.",
-    millRole:"An oversized piece bridging a charge bucket delays tapping, risks electrode collision when the roof closes, and can cause arc instability. In worst cases, a single stuck piece causes a 30–60 min heat delay — thousands of dollars in productivity loss.",
-    studentNote:"A charge bucket works like a clam-shell bottom trash can — open the jaws and the scrap falls into the furnace. If one beam is too long, it spans the opening like a tightrope walker and nothing else can fall through. The crane operator has to manually intervene.",
-    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/House_at_Gilmour_RD_being_demolished_b.jpg/330px-House_at_Gilmour_RD_being_demolished_b.jpg" },
-
   { id:"organic-contamination", symbol:"ORG", name:"Organic Contamination", subtitle:"Non-Metallic Combustible Attachments", type:"nonconforming",
     desc:"Scrap carrying rubber, plastic, wood, fabric, insulation, or other combustible non-metallics beyond specification limits (typically <1% by weight). These combust in the EAF at 1600°C, generating toxic fume (dioxins, furans, HCl from PVC), overloading off-gas handling, and disturbing slag chemistry.",
     uses:["Dioxin/Furan Emissions Exceedance","Off-Gas System Overload","Slag Foaming Disruption","Permit Violation Risk"],
