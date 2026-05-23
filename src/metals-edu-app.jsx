@@ -186,6 +186,37 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .hist-score{font-family:'Share Tech Mono',monospace;min-width:35px;font-weight:700;}
 .hist-date{color:var(--mu);font-size:.7rem;white-space:nowrap;}
 .hist-pct{font-family:'Share Tech Mono',monospace;font-size:.72rem;padding:2px 7px;border-radius:4px;min-width:38px;text-align:center;}
+/* HEAT TREAT */
+.ht-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem;}
+.ht-card{background:var(--s1);border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);transition:all .25s;position:relative;}
+.ht-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--or) 0%,rgba(217,108,12,0) 75%);}
+.ht-card:hover{border-color:rgba(217,108,12,.35);box-shadow:0 6px 24px rgba(217,108,12,.10),var(--shadow-md);}
+.ht-head{padding:.95rem 1.1rem .6rem;border-bottom:1px solid var(--bd);background:rgba(217,108,12,.03);}
+.ht-icon{font-size:1.5rem;margin-bottom:.3rem;}
+.ht-title{font-family:'Rajdhani',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--tx);margin-bottom:.1rem;}
+.ht-sub{font-size:.73rem;color:var(--mu);margin-bottom:.3rem;}
+.ht-temp{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--or);letter-spacing:.06em;}
+.ht-body{padding:.9rem 1.1rem;}
+.ht-desc{font-size:.87rem;color:#354840;line-height:1.6;margin-bottom:.75rem;}
+.ht-chips{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.75rem;}
+.ht-chip{font-size:.7rem;padding:3px 9px;border-radius:20px;background:rgba(217,108,12,.07);color:var(--or);border:1px solid rgba(217,108,12,.22);}
+.ht-note{font-size:.82rem;color:#2e4438;line-height:1.55;background:rgba(217,108,12,.04);border-left:3px solid var(--or);padding:8px 12px;border-radius:0 7px 7px 0;}
+.ht-phases{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.75rem;}
+.ht-phase{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:7px 10px;}
+.ht-plabel{font-size:.63rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;margin-bottom:2px;}
+.ht-pval{font-size:.84rem;color:var(--tx);font-weight:500;}
+/* GLOSSARY */
+.glo-bar{display:flex;gap:.7rem;margin-bottom:1.2rem;flex-wrap:wrap;align-items:center;}
+.glo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.75rem;margin-bottom:2rem;}
+.glo-card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:.95rem 1.1rem;box-shadow:var(--shadow-sm);}
+.glo-term{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--tx);margin-bottom:.2rem;}
+.glo-cat{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.12em;padding:2px 7px;border-radius:10px;text-transform:uppercase;font-weight:700;display:inline-block;margin-bottom:.5rem;}
+.glo-def{font-size:.85rem;color:#354840;line-height:1.6;}
+.glo-cat.micro{background:rgba(8,120,160,.09);color:var(--nf);border:1px solid rgba(8,120,160,.25);}
+.glo-cat.mech{background:rgba(196,72,32,.08);color:var(--fe);border:1px solid rgba(196,72,32,.25);}
+.glo-cat.process{background:rgba(120,64,184,.08);color:var(--ml);border:1px solid rgba(120,64,184,.25);}
+.glo-cat.steel{background:rgba(160,120,0,.08);color:var(--am);border:1px solid rgba(160,120,0,.25);}
+.glo-cat.scrap{background:rgba(78,120,64,.08);color:var(--sc);border:1px solid rgba(78,120,64,.25);}
 @media(max-width:580px){.hdr{padding:0 .9rem;}.main{padding:1rem;}.lvl-sel{display:none;}}
 `;
 
@@ -490,6 +521,82 @@ const SCRAP = [
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/SwarfSamples.jpg/330px-SwarfSamples.jpg" },
 ];
 
+const HEAT_TREAT = [
+  { id:"full-anneal", icon:"🌡️", name:"Full Annealing", subtitle:"Complete Softening", temp:"Ac3 + 30–50°C → Furnace Cool",
+    mechanism:"Steel is heated above the upper critical temperature (Ac3) so all carbon dissolves into austenite, then cooled very slowly in the furnace (10–30°C/hr). Produces the softest, most ductile condition possible. Carbides spheroidize and grain boundaries relax. Maximum formability, minimum hardness.",
+    phases:{"Start Temp":"750–900°C (Ac3+30)","Cooling Rate":"10–30°C/hr in furnace","Final Structure":"Coarse pearlite + ferrite","Hardness Result":"80–150 HB"},
+    appliesto:["Low & medium carbon steels","Hypereutectoid steels (spheroidize variant)","After cold work to restore ductility","Forgings & castings before machining"],
+    studentNote:"Full annealing is like giving steel a complete reset — slow furnace cooling means the atoms have maximum time to rearrange into the softest possible structure. Used when maximum machinability or formability is needed." },
+  { id:"stress-relief", icon:"😮‍💨", name:"Stress Relief", subtitle:"No Phase Change — Residual Stress Removal", temp:"550–680°C → Slow Cool",
+    mechanism:"Below the lower critical temperature (Ac1), no phase transformation occurs. Thermal energy allows dislocations and lattice distortions from welding, machining, or cold work to annihilate and rearrange. Dimensional stability is dramatically improved without changing hardness or microstructure significantly.",
+    phases:{"Temperature":"550–680°C","Hold Time":"1 hr per 25mm section","Cooling Rate":"<150°C/hr in furnace","Hardness Change":"Minimal"},
+    appliesto:["Welded fabrications","Machined precision components","Cold-worked parts","Castings & forgings before finish machining"],
+    studentNote:"After welding, steel is 'locked' in tension internally — stress relief heat treatment lets those stresses relax without changing the microstructure. Essential for parts that must hold tight tolerances." },
+  { id:"normalizing", icon:"⚖️", name:"Normalizing", subtitle:"Air-Cool from Austenite", temp:"Ac3 + 30–60°C → Air Cool",
+    mechanism:"Like full annealing but air-cooled outside the furnace rather than furnace-cooled. The faster cooling rate produces a finer pearlite and ferrite structure with higher strength and hardness than full anneal, but less than quench-and-temper. Refines grain size. Widely used as a conditioning treatment before hardening or machining.",
+    phases:{"Start Temp":"800–950°C","Cooling Rate":"~1–5°C/s in still air","Final Structure":"Fine pearlite + ferrite","Hardness":"150–250 HB"},
+    appliesto:["Low & medium carbon steels","After heavy forging to refine grain size","Structural steel weld prep","Cast steel components"],
+    studentNote:"Normalizing is 'anneal but with air cooling.' The faster cool gives finer, slightly stronger structure. It's the standard conditioning treatment — cheap (no slow furnace cool) and gives consistent results." },
+  { id:"quenching", icon:"💧", name:"Quenching", subtitle:"Rapid Cooling to Form Martensite", temp:"Ac3 + 30–60°C → Rapid Cool",
+    mechanism:"Steel is austenitized, then quenched into a cooling medium fast enough to suppress pearlite and bainite formation. Carbon atoms are 'trapped' in the iron lattice, creating a body-centered tetragonal (BCT) structure called martensite — extremely hard but brittle. Quench severity: brine > water > polymer > oil > air. Distortion and cracking risk increase with quench severity.",
+    phases:{"Austenitize Temp":"800–900°C","Quench Media":"Water, oil, polymer, brine","Final Structure":"Martensite (BCT)","Hardness":"55–68 HRC"},
+    appliesto:["Tool steels","Bearing steels (52100)","Gear & axle steels (4140, 4340)","High-strength structural steel"],
+    studentNote:"Quenching 'freezes' steel in a high-energy state — the carbon atoms don't have time to form carbides and get trapped in the iron lattice, creating hard martensite. Steel goes from soft (200 HB) to razor-hard (65 HRC) in seconds." },
+  { id:"tempering", icon:"🌊", name:"Tempering", subtitle:"Toughening Quenched Steel", temp:"150–700°C after Quench",
+    mechanism:"Quenched martensite is too brittle for most uses. Reheating to 150–700°C allows controlled decomposition of martensite: carbon partially precipitates as fine carbides, reducing lattice strain. Higher tempering temperature → softer, tougher steel. Low temper (150–250°C): tools, cutting edges. High temper (500–700°C): structural, springs, gears. Always done immediately after quenching.",
+    phases:{"Temperature Range":"150–700°C","Hold Time":"1–2 hr minimum","Cooling":"Air cool after hold","Hardness Range":"30–65 HRC (temp-dependent)"},
+    appliesto:["All quenched steels","Tool steels: 150–250°C (low temper)","Structural/gear steels: 500–650°C","Springs: 400–500°C"],
+    studentNote:"Tempering 'relaxes' martensite — trading some hardness for toughness. It's always done after quenching. A knife blade might temper at 200°C (stays hard), while an axle tempers at 600°C (soft enough not to snap). Same process, very different results." },
+  { id:"carburizing", icon:"⚗️", name:"Carburizing", subtitle:"Surface Carbon Enrichment", temp:"850–980°C in Carbon Atmosphere",
+    mechanism:"Low-carbon steel (0.10–0.25% C) is held in a carbon-rich atmosphere (endothermic gas, vacuum, or pack) at high temperature. Carbon diffuses into the surface layer to 0.6–2.0 mm depth, raising surface carbon to 0.8–1.0%. The part is then quenched to harden the high-carbon case while the low-carbon core remains tough. Gives hard wear-resistant surface + tough impact-resistant core.",
+    phases:{"Process Temp":"850–980°C","Carbon Source":"Endogas (CO/H₂), vacuum, or pack","Case Depth":"0.5–2.0 mm","Surface Carbon":"0.8–1.0%"},
+    appliesto:["Gear teeth (AISI 8620, 9310)","Bearing races","Camshafts & crankpins","Drive shafts"],
+    studentNote:"Carburizing creates a 'chocolate-coated' steel — hard on the outside (like hardened high-carbon steel) and tough on the inside (like the original low-carbon steel). Gearbox teeth are usually carburized so they can handle both surface contact stress and impact loads." },
+  { id:"nitriding", icon:"💨", name:"Nitriding", subtitle:"Nitrogen Case Hardening — No Quench", temp:"480–590°C in Ammonia/Gas",
+    mechanism:"Nitrogen is diffused into the steel surface from decomposed ammonia gas (or plasma/salt bath) at relatively low temperatures. Nitrogen forms hard nitride precipitates (Fe₂N, Fe₄N, and alloy nitrides with Cr, Al, Mo). No quenching needed — distortion is minimal. Surface hardness exceeds carburizing (up to 1100 HV). Case depth is shallower (0.1–0.5 mm). Excellent corrosion and fatigue resistance.",
+    phases:{"Process Temp":"480–590°C","Atmosphere":"Ammonia gas or plasma","Case Depth":"0.1–0.5 mm","Surface Hardness":"700–1100 HV"},
+    appliesto:["Precision gears & crankshafts","Extrusion dies & molds","Valve stems","Aerospace structural parts"],
+    studentNote:"Nitriding is the 'gentle' case hardening — done at low temperature, no quench, minimal distortion. Ideal for precision parts that can't afford warping. The hard surface comes from nitrogen compounds, not carbon." },
+  { id:"induction-harden", icon:"⚡", name:"Induction Hardening", subtitle:"Selective Surface Hardening", temp:"Local Heating → Immediate Quench",
+    mechanism:"An alternating magnetic field induces eddy currents in a selected surface zone, generating heat in microseconds to tens of seconds. Only the targeted area reaches austenitizing temperature — the core stays cool. Immediate quenching (water spray or immersion) creates a hard martensitic case. Depth is controlled by frequency: high frequency → shallow case (0.5–2mm), low frequency → deeper case (3–6mm). High productivity, low distortion.",
+    phases:{"Frequency":"3–500 kHz depending on case depth","Power":"10 kW–1 MW","Case Depth":"0.5–6 mm","Cycle Time":"1–30 seconds"},
+    appliesto:["Crankshafts & camshafts","Gear teeth (selective)","Axle journals","Rail ends & crossings"],
+    studentNote:"Induction hardening heats just the surface — in seconds — using magnetic fields. It can harden the tooth flanks of a gear while leaving the core tough. You can run a crankshaft under an induction coil and harden every journal precisely without touching anything else." },
+  { id:"precip-harden", icon:"🧊", name:"Precipitation Hardening", subtitle:"Aging to Strengthen", temp:"Solution Treat → Age at 300–550°C",
+    mechanism:"Two-step process: (1) Solution treating dissolves alloying elements into a single-phase matrix at high temperature; (2) Aging at intermediate temperature causes fine intermetallic precipitates to nucleate and grow throughout the matrix. These precipitates pin dislocation movement, dramatically increasing strength. Used for aluminum alloys, maraging steels, 17-4 PH stainless, and beryllium copper.",
+    phases:{"Solution Treat Temp":"900–1050°C (steels), 480–530°C (Al)","Aging Temp":"300–550°C (steels), 120–200°C (Al)","Aging Time":"1–20 hours","Strength Gain":"100–500 MPa"},
+    appliesto:["Maraging steel (480°C aging)","17-4 PH stainless steel","Beryllium copper (C17200)","7075 aluminum (T6 temper)"],
+    studentNote:"Precipitation hardening makes steel or aluminum hard without ever forming martensite — instead, tiny intermetallic 'needles' grow inside the grains and block dislocation movement. Maraging steel and many aerospace aluminum alloys use this mechanism." },
+];
+
+const GLOSSARY = [
+  { term:"Austenite", cat:"micro", def:"The face-centered cubic (FCC) phase of iron (γ-iron) stable above ~727°C. Austenite can dissolve up to 2.1% carbon. It is non-magnetic, tough, and is the starting phase for most heat treatment cycles. In austenitic stainless steels (304, 316), it is retained at room temperature by nickel addition." },
+  { term:"Ferrite", cat:"micro", def:"The body-centered cubic (BCC) phase of iron (α-iron) stable below ~912°C. Ferrite dissolves almost no carbon (<0.02%). It is soft, ductile, and magnetic. In low-carbon steels, ferrite forms white polygonal grains in the microstructure alongside pearlite. The 'matrix' of most mild steels." },
+  { term:"Martensite", cat:"micro", def:"A metastable, supersaturated solid solution of carbon in iron formed by rapid quenching. Carbon atoms are 'trapped' in a body-centered tetragonal (BCT) lattice. The hardest steel microstructure (up to 68 HRC). Extremely hard but brittle as-quenched — always tempered before use. Named after German metallurgist Adolf Martens." },
+  { term:"Pearlite", cat:"micro", def:"A lamellar (layered) microstructure of alternating ferrite and cementite (Fe₃C) plates, formed when austenite cools slowly through the eutectoid temperature (~727°C). Named for its pearlescent appearance under the microscope. Coarse pearlite (slow cool) is softer; fine pearlite (faster cool) is harder. Comprises most of annealed medium-carbon steel." },
+  { term:"Bainite", cat:"micro", def:"An acicular (needle-like) microstructure formed when austenite transforms at temperatures between the pearlite range (~600°C) and the martensite start (Ms) temperature. Upper bainite (400–600°C) has coarser feathery structure; lower bainite (<400°C) is finer and stronger. Stronger than pearlite, tougher than martensite. Produced by austempering." },
+  { term:"Cementite", cat:"micro", def:"Iron carbide (Fe₃C), a hard, brittle intermetallic compound containing 6.67% carbon. Forms as plates in pearlite, as a network in hypereutectoid steels, and as needles in white cast iron. Very high hardness (~800 HV) but zero toughness. Its distribution controls much of the hardness and brittleness of carbon steels." },
+  { term:"Tensile Strength", cat:"mech", def:"The maximum stress a material can withstand before fracture when pulled in tension, measured in MPa or ksi. Also called Ultimate Tensile Strength (UTS). Distinguished from yield strength — the UTS is reached after significant plastic deformation. A structural steel might have 400 MPa UTS; maraging steel exceeds 2000 MPa." },
+  { term:"Yield Strength", cat:"mech", def:"The stress at which a material begins to deform plastically (permanently), typically defined at 0.2% offset strain. Below yield, steel behaves elastically and springs back. Above yield, it permanently deforms. Yield strength governs structural design — engineers keep stresses well below it. Higher carbon and alloying generally raise yield strength." },
+  { term:"Toughness", cat:"mech", def:"The ability of a material to absorb energy before fracture — a combination of strength and ductility. Measured by Charpy or Izod impact tests (in Joules). High-toughness steels resist crack propagation. Martensite is hard but low-toughness; tempered martensite trades hardness for toughness. Low temperature typically reduces toughness (ductile-to-brittle transition)." },
+  { term:"Hardenability", cat:"mech", def:"The ability of a steel to be hardened (form martensite) throughout its cross-section during quenching, not just at the surface. Measured by the Jominy end-quench test. High hardenability allows thicker sections to harden fully. Alloying elements (Mn, Cr, Mo, Ni, B) all increase hardenability by slowing pearlite and bainite transformations." },
+  { term:"Ductility", cat:"mech", def:"The ability of a material to undergo significant plastic deformation before fracture, measured as percent elongation or reduction in area. High ductility means the material can be drawn, stamped, or bent without cracking. Low-carbon steels are highly ductile; high-carbon and cast irons are brittle. Essential for sheet metal forming and structural applications." },
+  { term:"Creep", cat:"mech", def:"The time-dependent plastic deformation of a material under sustained stress at elevated temperatures, well below its melting point. Significant above ~0.3–0.4 × melting point (Kelvin). Critical in power plant turbines, boilers, and jet engines. Molybdenum, chromium, and tungsten additions in steels form stable carbides that resist creep by pinning grain boundaries." },
+  { term:"HSLA Steel", cat:"steel", def:"High Strength Low Alloy steel — a family of steels with small additions of Nb, V, Ti, and/or Cu (typically <0.1% each) that achieve 350–700 MPa yield strength without heat treatment. The microalloying elements refine grain size through precipitation and grain boundary pinning during controlled rolling. Used in automotive bodies, pipelines, and structural sections." },
+  { term:"AHSS", cat:"steel", def:"Advanced High Strength Steel — umbrella term for modern automotive steels achieving 500–1500+ MPa tensile strength with significant ductility. Includes Dual Phase (DP), TRIP (Transformation Induced Plasticity), Martensitic, and TWIP (Twinning Induced Plasticity) steels. AHSS enables vehicle lightweighting — thinner, stronger panels with unchanged crash performance." },
+  { term:"ULC Steel", cat:"steel", def:"Ultra Low Carbon steel — typically <0.005% carbon, compared to ~0.05% in ordinary low-carbon steel. Requires RH or VD vacuum degassing to reach these carbon levels. Enables excellent deep-drawing formability for automotive body panels. Often stabilized with titanium or niobium to prevent carbon/nitrogen 'aging' embrittlement after stamping." },
+  { term:"HAZ", cat:"process", def:"Heat Affected Zone — the region of base metal adjacent to a weld that was not melted but was heated enough to alter its microstructure and mechanical properties. HAZ can show grain growth (softening), hardening (martensite formation in higher-carbon steels), or sensitization (in stainless). Controls weld joint performance and cracking risk. Width depends on heat input." },
+  { term:"Sensitization", cat:"process", def:"A loss of corrosion resistance in austenitic stainless steel caused by heating in the 425–815°C range. Chromium diffuses to grain boundaries and forms Cr₂₃C₆ carbides, depleting adjacent regions below the 10.5% Cr minimum for passivity. These chromium-depleted zones are vulnerable to intergranular attack. Prevented by using low-carbon (304L, 316L) or titanium/niobium-stabilized grades." },
+  { term:"Temper Embrittlement", cat:"process", def:"Embrittlement of certain alloy steels after tempering or slow cooling through the 375–575°C range. Caused by segregation of impurity elements (P, Sn, Sb, As) to prior austenite grain boundaries, lowering grain boundary cohesion. Detected by shift in ductile-to-brittle transition temperature. Prevented by using steels with low impurity levels and by molybdenum addition." },
+  { term:"Tramp Elements", cat:"scrap", def:"Residual metallic elements in steel that cannot be removed by conventional steelmaking — primarily copper (Cu), tin (Sn), nickel (Ni), chromium (Cr), and molybdenum (Mo). They accumulate with each recycling cycle. At low levels (<0.2% Cu) they are harmless or even beneficial (Cu improves corrosion resistance). Above limits, Cu causes hot shortness (surface cracking during rolling) and Sn causes temper embrittlement." },
+  { term:"Hot Shortness", cat:"process", def:"Surface cracking and tearing of steel during hot rolling caused by liquid copper films at grain boundaries. Copper melts at 1085°C — below the hot rolling temperature (~1150°C). When Cu-containing scrap is remelted, copper is rejected from solidifying steel and concentrates at grain boundaries. Prevented by diluting copper with low-residual scrap or DRI/pig iron. Tin exacerbates hot shortness." },
+  { term:"Decarburization", cat:"process", def:"Loss of carbon from the surface layer of steel when heated in an oxidizing atmosphere. Oxygen reacts with surface carbon to form CO/CO₂ gas, leaving a soft ferrite-rich layer. Reduces fatigue strength and surface hardness. Prevented by controlled atmosphere furnaces, salt baths, or protective coatings. Critical issue in spring, tool, and bearing steel heat treatment." },
+  { term:"Inoculation", cat:"process", def:"Addition of small amounts of materials (graphite, FeSi, cerium) to cast iron melts to control the number and morphology of graphite nucleation sites. Fine, uniformly distributed graphite flakes (gray iron) or spheroids (ductile iron) give predictable mechanical properties. Without inoculation, cast iron solidifies as brittle white iron. The entire character of cast iron depends on successful inoculation." },
+  { term:"IACS", cat:"steel", def:"International Annealed Copper Standard — the baseline for measuring electrical conductivity. Pure annealed copper (C11000) = 100% IACS. All other metals are rated relative to this. Silver: 106%, aluminum: 61%, gold: 73%, steel: ~12%. Important for selecting materials in electrical applications — higher IACS means lower resistive losses in conductors and bus bars." },
+  { term:"TTT Diagram", cat:"micro", def:"Time-Temperature-Transformation diagram — a graph showing the start and finish of austenite decomposition products (pearlite, bainite, martensite) as a function of temperature and time. The 'nose' of the TTT curve represents the fastest transformation. Cooling curves that miss the nose allow full martensite formation. Essential tool for designing quenching and tempering cycles." },
+  { term:"Microalloying", cat:"steel", def:"The practice of adding very small amounts of strong carbide/nitride formers (Nb 0.01–0.1%, V 0.05–0.15%, Ti 0.01–0.03%) to refine grain size and provide precipitation strengthening in steel without heat treatment. These elements form fine precipitates (NbC, VN, TiN) during controlled rolling that pin austenite grain boundaries, producing fine, strong ferrite in the as-rolled condition. The key technology in modern HSLA steels." },
+];
+
 const ALL_METALS = [...FERROUS, ...NONFERROUS, ...COPPER_ALLOYS];
 
 const MILL_STEPS = [
@@ -564,6 +671,27 @@ const QUIZ_POOL = [
   { q:"Why is cupronickel (90/10) preferred over brass for marine heat exchangers?", metal:"cupronickel", opts:["Higher tensile strength than brass","Resistance to dezincification and biofouling in seawater","Lower cost due to less copper content","Magnetic properties for easy inspection"], ans:1, exp:"Cupronickel resists both dezincification (the selective leaching of zinc that weakens brass in seawater) and biofouling (marine organisms) — making it the standard material for seawater-cooled heat exchangers and condenser tubing." },
   { q:"What makes beryllium copper (C17200) unique among copper alloys?", metal:"beryllium-copper", opts:["It is the most corrosion-resistant copper alloy","It achieves steel-level strength (>1400 MPa) after age hardening while remaining non-magnetic and non-sparking","It has the highest electrical conductivity of all copper alloys","It contains no beryllium — the name is historical"], ans:1, exp:"Beryllium copper age hardens through precipitation of CuBe and Cu₂Be intermetallics at ~315°C, reaching tensile strengths >1400 MPa — the highest of all copper alloys — while maintaining good conductivity, being non-magnetic, and non-sparking in explosive atmospheres." },
   { q:"What is 'dezincification' and which copper alloy was specifically designed to resist it?", metal:"naval-brass", opts:["Oxidation of zinc on brass surfaces — resisted by phosphor bronze","Selective leaching of zinc from brass in seawater leaving a porous copper sponge — resisted by Naval Brass (C46400)","A heat treatment that removes zinc — resisted by aluminum bronze","Zinc evaporation during casting — resisted by cupronickel"], ans:1, exp:"Dezincification occurs when zinc preferentially dissolves from brass in seawater, leaving a weakened copper shell. Naval Brass (C46400) adds 0.75% tin to inhibit this electrochemical process, making it the standard choice for marine hardware." },
+
+  // ── Scrap ──
+  { q:"Why is 'Busheling' (ISRI 205) the most valuable ferrous scrap grade?", metal:"busheling", opts:["It is the heaviest and densest scrap","It is factory-new uncoated stamping clips with ultra-low residual elements","It contains pre-alloyed chromium and nickel","It is the easiest grade to shred and process"], ans:1, exp:"Busheling is generated directly from automotive stamping lines — it has never been exposed to weathering, coatings, or contamination, so residuals like Cu and Sn are as low as 0.08%. EAF mills pay a premium to make demanding steel grades." },
+  { q:"What are 'tramp elements' in EAF steelmaking and why can't they be removed?", metal:"shredded", opts:["Phosphorus and sulfur — removed by lime slag","Copper, tin, and nickel — they are more noble than iron and won't oxidize into the slag","Carbon and silicon — controlled by oxygen lancing","Manganese and chromium — they evaporate during melting"], ans:1, exp:"Cu, Sn, Ni, and Mo are more noble (less reactive) than iron, so they won't oxidize and transfer into the slag when oxygen is blown. They accumulate with every recycling cycle — the only way to reduce them is to dilute with clean scrap or DRI." },
+  { q:"What is the primary advantage of DRI/HBI over scrap in an EAF charge?", metal:"dri-hbi", opts:["Higher carbon content for recarburizing","Near-zero tramp elements (Cu < 0.01%) enabling high-quality flat products","Lower cost than all scrap grades","It melts faster than steel scrap"], ans:1, exp:"DRI/HBI is made from iron ore, not recycled steel, so it contains virtually no copper, tin, or nickel. Adding 20–40% DRI to a scrap charge dilutes tramp elements to levels acceptable for automotive sheet and electrical steel production via the EAF route." },
+  { q:"What causes 'hot shortness' in steel rolled from copper-contaminated scrap?", metal:"shredded", opts:["Copper increases the melting point, causing solid inclusions during rolling","Molten copper films form at grain boundaries at hot rolling temperatures, causing surface cracks","Copper causes hydrogen embrittlement during reheating","Copper precipitates slow down the rolling mill rolls"], ans:1, exp:"Copper melts at 1085°C — below hot rolling temperatures (~1150°C). Copper rejected from the solidifying steel surface concentrates at grain boundaries as a liquid film, which tears open during rolling, causing surface cracks. Tin accelerates this by lowering copper's melting point further." },
+  { q:"HMS #1 and HMS #2 scrap differ primarily in:", metal:"hms1", opts:["Carbon content — HMS #1 is high carbon, HMS #2 is low carbon","Thickness and cleanliness — HMS #1 requires ≥¼\" sections, HMS #2 allows lighter and dirtier material","Country of origin — HMS #1 is domestic, HMS #2 is imported","Magnetic properties — HMS #1 is fully magnetic, HMS #2 is partially non-magnetic"], ans:1, exp:"ISRI Grade 200 (HMS #1) requires clean, dry steel ≥¼\" thick. HMS #2 (Grade 201/202) allows thinner sections down to 1/8\" and mixed material. The thickness and cleanliness difference means HMS #1 has lower residuals and commands a higher price." },
+
+  // ── Mill Process ──
+  { q:"What is 'foamy slag practice' in an EAF and why is it used?", metal:"carbon-steel", opts:["Adding lime to make slag foamy for easier removal","Injecting carbon powder to generate CO bubbles that blanket the arc, cutting electrode consumption by ~20%","Stirring the slag with nitrogen to mix alloy additions","Reducing slag basicity by adding silica sand"], ans:1, exp:"Carbon powder is injected into the EAF slag, reacting with FeO to generate CO bubbles. The foam insulates and buries the arc, reducing heat loss and electrode oxidation. Foamy slag practice improves energy efficiency by 10–15% and is standard in all modern EAF operations." },
+  { q:"In continuous casting, why is the mold oscillated vertically?", metal:"copper", opts:["To mix the liquid steel and homogenize temperature","To prevent the solidifying shell from sticking to the copper mold and tearing","To increase cooling rate by improving heat transfer","To measure mold level by vibration frequency"], ans:1, exp:"Without oscillation, friction between the solidifying steel shell and the copper mold would cause the shell to stick and tear — producing a breakout (liquid steel flood). Oscillation leaves characteristic 'oscillation marks' on the strand surface but keeps the shell free. Mold flux is also injected to lubricate." },
+  { q:"What is the purpose of the 'run-out table' cooling system after the hot strip mill?", metal:"carbon-steel", opts:["To cool the coil before storage — no metallurgical effect","To control microstructure and mechanical properties through controlled austenite transformation temperature and rate","To remove surface scale by rapid quenching","To flatten the strip before coiling"], ans:1, exp:"The run-out table (ROT) cools the strip from ~880°C to a coiling temperature of 550–750°C using water banks. The cooling rate and stop temperature control whether austenite transforms to coarse or fine ferrite+pearlite or bainite, directly setting the mechanical properties of the final product without any additional heat treatment." },
+  { q:"What is the role of limestone in the blast furnace?", metal:"pig-iron", opts:["Provides carbon for iron ore reduction","Decomposes to CaO which forms slag by combining with silica and alumina impurities","Acts as the primary fuel alongside coke","Provides the iron source for pig iron production"], ans:2, exp:"Limestone (CaCO₃) decomposes to CaO and CO₂ at ~900°C. The CaO acts as a flux, combining with SiO₂, Al₂O₃, and other gangue minerals from the iron ore to form liquid slag, which separates from the iron and is tapped separately. Without limestone, impurities would remain in the iron." },
+  { q:"In an EAF, what is the role of the ladle furnace (LF) that follows tapping?", metal:"carbon-steel", opts:["To melt additional scrap that didn't fit in the EAF","To fine-tune chemistry, temperature, and remove inclusions before continuous casting","To perform the final quenching of liquid steel","To separate slag from steel by centrifugal force"], ans:1, exp:"After tapping, liquid steel in the ladle goes to the LF (ladle furnace) which uses graphite electrodes and inert gas stirring to: precisely adjust alloy chemistry, homogenize temperature, reduce sulfur via slag treatment, and float out non-metallic inclusions. The LF decouples EAF melting from caster speed." },
+
+  // ── Alloying Elements ──
+  { q:"What role does vanadium play in high-speed tool steels like M2?", metal:"tool-steel", opts:["Acts as a deoxidizer replacing aluminum","Forms extremely hard vanadium carbides (VC) that provide wear resistance and maintain hot hardness","Increases electrical conductivity for EDM machining","Lowers the austenitizing temperature to reduce distortion"], ans:1, exp:"Vanadium (1–5% in HSS) forms very hard VC carbides (HV ~2800 — harder than WC). These resist dissolution at cutting temperatures, provide abrasion resistance against workpiece materials, and help maintain hardness above 500°C. The V content is a key differentiator between general-purpose and premium high-speed steels." },
+  { q:"What does silicon do in electrical (transformer) steels?", metal:"alloy-steel", opts:["Increases electrical conductivity by pairing with copper","Dramatically increases electrical resistivity, reducing eddy current losses in transformer cores","Acts as the primary strength-giving element","Stabilizes austenite for room-temperature retention"], ans:1, exp:"Silicon (2–4%) raises the electrical resistivity of iron from ~10 to ~50 μΩ·cm, reducing eddy current losses in AC transformer cores. It also improves magnetic permeability and reduces magnetostriction. Grain-oriented electrical steel (GOES) with 3% Si is the core material of virtually all power transformers." },
+  { q:"Why is aluminum added to liquid steel in the ladle at tap?", metal:"carbon-steel", opts:["To add strength via aluminum carbide precipitation","As a strong deoxidizer (forming Al₂O₃) and to control austenite grain size via AlN precipitation","To increase electrical conductivity of the final product","To prevent hot shortness by binding with copper"], ans:1, exp:"Aluminum is the most common deoxidizer: 2Al + 3O → Al₂O₃. It removes dissolved oxygen that would cause porosity. Beyond deoxidation, AlN precipitates pin austenite grain boundaries during reheating, keeping grain size fine and improving toughness. 'Al-killed' steels have much better consistency than 'rimmed' steels." },
+  { q:"What prevents sensitization in stainless steel grades 321 and 347?", metal:"stainless-steel", opts:["Higher chromium content (>18%)","Titanium (321) or niobium (347) additions that preferentially form TiC/NbC, preventing chromium carbide formation","Molybdenum additions that slow carbon diffusion","Water quenching after welding to freeze the microstructure"], ans:1, exp:"In the heat-affected zone of welds (425–815°C range), carbon migrates to grain boundaries and combines with chromium to form Cr₂₃C₆. This depletes adjacent regions below 10.5% Cr. Titanium or niobium have stronger affinity for carbon, forming TiC or NbC preferentially, leaving chromium in solution and the passive film intact." },
+  { q:"What effect does copper addition (0.2–0.5%) have in weathering steel (Corten)?", metal:"alloy-steel", opts:["Increases hardenability for through-hardening","Promotes formation of a dense, adherent rust layer that acts as a corrosion barrier","Acts as a grain refiner replacing niobium","Increases electrical conductivity for grounding applications"], ans:1, exp:"In weathering steels (ASTM A588, A242), copper along with small amounts of phosphorus, chromium, and nickel promotes formation of a tightly adherent, amorphous rust layer (α-FeOOH). This patina seals the surface and greatly reduces ongoing corrosion — weathering steel can last 50+ years without paint in many environments." },
 ];
 
 // ─── MICROSTRUCTURE SVG ───────────────────────────────────────────────────────
@@ -867,11 +995,15 @@ export default function MetalogyApp() {
   const [quizSearch, setQuizSearch] = useState("");
   const [quizMetalFilter, setQuizMetalFilter] = useState("all");
   const [shuffled, setShuffled] = useState([]);
+  const [gloSearch, setGloSearch] = useState("");
+  const [gloCat, setGloCat] = useState("all");
 
   const filteredQuizPool = useMemo(() => {
     return QUIZ_POOL.filter(q => {
-      const metalObj = ALL_METALS.find(m => m.id === q.metal);
-      const matchesType = quizMetalFilter === "all" || (metalObj && metalObj.type === quizMetalFilter);
+      const metalObj = [...ALL_METALS, ...SCRAP].find(m => m.id === q.metal);
+      const matchesType = quizMetalFilter === "all"
+        || (metalObj && metalObj.type === quizMetalFilter)
+        || (quizMetalFilter === "scrap" && metalObj && metalObj.type === "scrap");
       const matchesSearch = !quizSearch || q.q.toLowerCase().includes(quizSearch.toLowerCase());
       return matchesType && matchesSearch;
     });
@@ -956,8 +1088,8 @@ export default function MetalogyApp() {
     return true;
   });
 
-  const metalA = ALL_METALS.find(m => m.id === compareA);
-  const metalB = ALL_METALS.find(m => m.id === compareB);
+  const metalA = [...ALL_METALS, ...SCRAP].find(m => m.id === compareA);
+  const metalB = [...ALL_METALS, ...SCRAP].find(m => m.id === compareB);
   const activeStep = MILL_STEPS.find(s => s.id === millStep);
 
   const overallPct = progress.totalAttempted > 0 ? Math.round((progress.totalCorrect / progress.totalAttempted) * 100) : 0;
@@ -988,9 +1120,11 @@ export default function MetalogyApp() {
         {[
           { id:"learn", label:"📚 Learn" },
           { id:"mill", label:"🏭 Steel Mill" },
+          { id:"ht", label:"🔥 Heat Treat" },
           { id:"ladle", label:"⚗ Ladle Calc" },
           { id:"compare", label:"⚖ Compare" },
           { id:"quiz", label:"🎯 Quiz" },
+          { id:"glossary", label:"📖 Glossary" },
           { id:"progress", label:"📊 Progress" },
         ].map(t => (
           <button key={t.id} className={`ntab${tab===t.id?" active":""}`} onClick={() => setTab(t.id)}>
@@ -1221,6 +1355,51 @@ export default function MetalogyApp() {
           </div>
         </>}
 
+        {/* ══ HEAT TREAT TAB ══ */}
+        {tab === "ht" && <>
+          <div style={{ textAlign:"center", padding:"1.5rem 1rem 1rem" }}>
+            <div style={{ display:"inline-block", fontFamily:"'Share Tech Mono',monospace", fontSize:".66rem", color:"var(--or)", letterSpacing:".15em", border:"1px solid rgba(217,108,12,.4)", padding:"3px 10px", borderRadius:2, marginBottom:".7rem" }}>
+              🔥 Thermal Processing Reference
+            </div>
+            <h1 style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:"clamp(1.6rem,4vw,2.4rem)", fontWeight:700, letterSpacing:".04em", textTransform:"uppercase", marginBottom:".6rem" }}>
+              Heat <span style={{ color:"var(--or)" }}>Treatment</span>
+            </h1>
+            <p style={{ color:"var(--mu)", maxWidth:500, margin:"0 auto 1.4rem", fontSize:".9rem", lineHeight:1.6, fontWeight:300 }}>
+              9 core thermal processes — temperatures, mechanisms, resulting microstructures, and the steel grades each process is used on.
+            </p>
+          </div>
+          <div className="ht-grid">
+            {HEAT_TREAT.map(ht => (
+              <div key={ht.id} className="ht-card">
+                <div className="ht-head">
+                  <div className="ht-icon">{ht.icon}</div>
+                  <div className="ht-title">{ht.name}</div>
+                  <div className="ht-sub">{ht.subtitle}</div>
+                  <div className="ht-temp">{ht.temp}</div>
+                </div>
+                <div className="ht-body">
+                  <div className="ht-desc">{ht.mechanism}</div>
+                  <div className="ht-phases">
+                    {Object.entries(ht.phases).map(([k, v]) => (
+                      <div key={k} className="ht-phase">
+                        <div className="ht-plabel">{k}</div>
+                        <div className="ht-pval">{v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginBottom:".65rem" }}>
+                    <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:".62rem", color:"var(--mu)", letterSpacing:".1em", textTransform:"uppercase", marginBottom:".4rem" }}>Applied To</div>
+                    <div className="ht-chips">
+                      {ht.appliesto.map(s => <span key={s} className="ht-chip">{s}</span>)}
+                    </div>
+                  </div>
+                  {level === "student" && <div className="ht-note">{ht.studentNote}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>}
+
         {/* ══ LADLE CALC TAB ══ */}
         {tab === "ladle" && <>
           <div className="sh"><span className="stag tam">⚗</span><span className="stitle">Ladle Metallurgy Calculator</span></div>
@@ -1246,11 +1425,12 @@ export default function MetalogyApp() {
           <div className="cgrid">
             {[[metalA, compareA, setCompareA, "Metal A"], [metalB, compareB, setCompareB, "Metal B"]].map(([panel, sel, setSel, label]) => (
               <div key={label} className="cpanel">
-                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":panel?.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{label}: {panel?.name}</h3>
+                <h3 style={{ color: panel?.type==="ferrous"?"var(--fe)":panel?.type==="copper_alloy"?"var(--cp)":panel?.type==="scrap"?"var(--sc)":"var(--nf)" }}>{label}: {panel?.name}</h3>
                 <select className="csel" value={sel} onChange={e => setSel(e.target.value)}>
                   <optgroup label="── Ferrous ──">{FERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Non-Ferrous ──">{NONFERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Copper Alloys ──">{COPPER_ALLOYS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
+                  <optgroup label="── Scrap Grades ──">{SCRAP.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                 </select>
                 {panel && <>
                   <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":panel.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{panel.type==="copper_alloy"?"Cu-Alloy":panel.type}</span></div>
@@ -1264,7 +1444,7 @@ export default function MetalogyApp() {
                       {panel.uses.map(u => <span key={u} className="uchip">{u}</span>)}
                     </div>
                   </div>
-                  {panel && (
+                  {panel && panel.micro && (
                     <div style={{ marginTop:".7rem" }}>
                       <MicrostructureSVG metalId={panel.id} width={260} height={90} />
                     </div>
@@ -1278,8 +1458,8 @@ export default function MetalogyApp() {
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:"1rem", fontWeight:600, letterSpacing:".08em", textTransform:"uppercase", color:"var(--am)", marginBottom:".8rem" }}>Key Differences</div>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:".6rem" }}>
                 {[
-                  { l:"Iron Content", a:metalA.type==="ferrous"?"Contains Iron":"No Iron", b:metalB.type==="ferrous"?"Contains Iron":"No Iron" },
-                  { l:"Magnetic", a:metalA.type==="ferrous"?"Usually Yes":"Usually No", b:metalB.type==="ferrous"?"Usually Yes":"Usually No" },
+                  { l:"Category", a:metalA.type==="ferrous"?"Ferrous":metalA.type==="copper_alloy"?"Cu-Alloy":metalA.type==="scrap"?"Scrap Feedstock":"Non-Ferrous", b:metalB.type==="ferrous"?"Ferrous":metalB.type==="copper_alloy"?"Cu-Alloy":metalB.type==="scrap"?"Scrap Feedstock":"Non-Ferrous" },
+                  { l:"Iron Content", a:metalA.type==="ferrous"||metalA.type==="scrap"?"Contains Iron":"No Iron", b:metalB.type==="ferrous"||metalB.type==="scrap"?"Contains Iron":"No Iron" },
                   { l:"Density", a:metalA.properties["Density"]||"—", b:metalB.properties["Density"]||"—" },
                   { l:"Melting Point", a:metalA.properties["Melting Point"]||"—", b:metalB.properties["Melting Point"]||"—" },
                 ].map(row => (
@@ -1312,7 +1492,7 @@ export default function MetalogyApp() {
                   />
                 </div>
                 <div className="fbtns" style={{ marginBottom:"1rem" }}>
-                  {[["all","All Metals"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"],["copper_alloy","Cu-Alloys"]].map(([val, label]) => (
+                  {[["all","All Topics"],["ferrous","Ferrous"],["nonferrous","Non-Ferrous"],["copper_alloy","Cu-Alloys"],["scrap","♻ Scrap"]].map(([val, label]) => (
                     <button key={val} className={`fbtn ${quizMetalFilter===val?"active":""}`} onClick={() => setQuizMetalFilter(val)}>
                       {label}
                     </button>
@@ -1377,6 +1557,42 @@ export default function MetalogyApp() {
             )}
           </div>
         )}
+
+        {/* ══ GLOSSARY TAB ══ */}
+        {tab === "glossary" && <>
+          <div style={{ textAlign:"center", padding:"1.5rem 1rem 1rem" }}>
+            <div style={{ display:"inline-block", fontFamily:"'Share Tech Mono',monospace", fontSize:".66rem", color:"var(--nf)", letterSpacing:".15em", border:"1px solid rgba(8,120,160,.4)", padding:"3px 10px", borderRadius:2, marginBottom:".7rem" }}>
+              📖 Metallurgical Reference
+            </div>
+            <h1 style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:"clamp(1.6rem,4vw,2.4rem)", fontWeight:700, letterSpacing:".04em", textTransform:"uppercase", marginBottom:".6rem" }}>
+              Glossary of <span style={{ color:"var(--nf)" }}>Key Terms</span>
+            </h1>
+            <p style={{ color:"var(--mu)", maxWidth:500, margin:"0 auto 1.4rem", fontSize:".9rem", lineHeight:1.6, fontWeight:300 }}>
+              25 essential metallurgical terms — microstructure, mechanical properties, process concepts, steel designations, and scrap terminology.
+            </p>
+          </div>
+          <div className="glo-bar">
+            <input className="sinput" style={{ flex:1, minWidth:160 }} placeholder="Search terms..." value={gloSearch} onChange={e => setGloSearch(e.target.value)} />
+            <div className="fbtns">
+              {[["all","All"],["micro","Microstructure"],["mech","Mechanical"],["process","Process"],["steel","Steel Types"],["scrap","Scrap"]].map(([id, label]) => (
+                <button key={id} className={`fbtn${gloCat===id?" active":""}`} onClick={() => setGloCat(id)}>{label}</button>
+              ))}
+            </div>
+          </div>
+          <div className="glo-grid">
+            {GLOSSARY.filter(g => {
+              const matchCat = gloCat === "all" || g.cat === gloCat;
+              const matchSearch = !gloSearch || g.term.toLowerCase().includes(gloSearch.toLowerCase()) || g.def.toLowerCase().includes(gloSearch.toLowerCase());
+              return matchCat && matchSearch;
+            }).map(g => (
+              <div key={g.term} className="glo-card">
+                <div className="glo-term">{g.term}</div>
+                <span className={`glo-cat ${g.cat}`}>{g.cat === "micro" ? "Microstructure" : g.cat === "mech" ? "Mechanical" : g.cat === "process" ? "Process" : g.cat === "steel" ? "Steel Types" : "Scrap"}</span>
+                <div className="glo-def">{g.def}</div>
+              </div>
+            ))}
+          </div>
+        </>}
 
         {/* ══ PROGRESS TAB ══ */}
         {tab === "progress" && <>
