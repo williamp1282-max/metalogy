@@ -12,7 +12,7 @@ const CSS = `
 :root {
   --bg:#f4f7f5; --s1:#ffffff; --s2:#edf2ee; --s3:#e0e9e2; --bd:#c4d4c8;
   --or:#d96c0c; --am:#a07800; --st:#3e6454; --tx:#18261e; --mu:#4e6858;
-  --fe:#c44820; --nf:#0878a0; --ml:#7840b8; --gn:#208048; --rd:#c83030; --cp:#a06828;
+  --fe:#c44820; --nf:#0878a0; --ml:#7840b8; --gn:#208048; --rd:#c83030; --cp:#a06828; --sc:#4e7840;
   --shadow-sm:0 1px 6px rgba(0,0,0,.07);
   --shadow-md:0 3px 16px rgba(0,0,0,.10);
   --shadow-lg:0 6px 32px rgba(0,0,0,.14);
@@ -46,6 +46,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .tgn{background:rgba(32,128,72,.09);color:var(--gn);border:1px solid rgba(32,128,72,.3);}
 .tam{background:rgba(160,120,0,.09);color:var(--am);border:1px solid rgba(160,120,0,.3);}
 .tcp{background:rgba(160,104,40,.09);color:var(--cp);border:1px solid rgba(160,104,40,.3);}
+.tsc{background:rgba(78,120,64,.09);color:var(--sc);border:1px solid rgba(78,120,64,.3);}
 .stitle{font-family:'Rajdhani',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
 
 /* CARDS */
@@ -56,9 +57,13 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .mcard.ferrous::before{background:linear-gradient(90deg,var(--fe) 0%,rgba(196,72,32,0) 75%);}
 .mcard.nonferrous::before{background:linear-gradient(90deg,var(--nf) 0%,rgba(8,120,160,0) 75%);}
 .mcard.copper_alloy::before{background:linear-gradient(90deg,var(--cp) 0%,rgba(160,104,40,0) 75%);}
+.mcard.scrap::before{background:linear-gradient(90deg,var(--sc) 0%,rgba(78,120,64,0) 75%);}
 .mcard.ferrous:hover{border-color:rgba(196,72,32,.35);box-shadow:0 6px 24px rgba(196,72,32,.10),var(--shadow-md);background:var(--s2);}
 .mcard.nonferrous:hover{border-color:rgba(8,120,160,.35);box-shadow:0 6px 24px rgba(8,120,160,.10),var(--shadow-md);background:var(--s2);}
 .mcard.copper_alloy:hover{border-color:rgba(160,104,40,.35);box-shadow:0 6px 24px rgba(160,104,40,.10),var(--shadow-md);background:var(--s2);}
+.mcard.scrap:hover{border-color:rgba(78,120,64,.35);box-shadow:0 6px 24px rgba(78,120,64,.10),var(--shadow-md);background:var(--s2);}
+.mcard.scrap .msym{color:var(--sc);}
+.mcard.scrap.exp{border-color:rgba(78,120,64,.45);}
 .mcard.exp{border-color:rgba(217,108,12,.45);box-shadow:0 0 0 1px rgba(217,108,12,.10),var(--shadow-md);}
 .ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;}
 .msym{font-family:'Share Tech Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;}
@@ -427,6 +432,62 @@ const COPPER_ALLOYS = [
     studentNote:"Regular brass can 'dezincify' in seawater — the zinc leaches out, leaving a porous copper sponge. Adding even 0.75% tin prevents this, which is the entire reason Naval Brass exists.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Planispheric_Astrolabe_MET_DP105325.jpg/330px-Planispheric_Astrolabe_MET_DP105325.jpg",
     micro:"brass_grains" },
+];
+
+const SCRAP = [
+  { id:"hms1", symbol:"HMS1", name:"HMS #1", subtitle:"Heavy Melting Steel No. 1", type:"scrap",
+    desc:"The premier ferrous scrap grade — clean, dry steel sections ≥¼\" thick and ≥6\" wide. Includes heavy structural shapes, thick plate, and heavy forgings. No coatings, rubber, or free moisture. Low residuals make it ideal for quality flat products.",
+    uses:["Quality Flat Products","EAF Automotive Sheet","BOF Skull Returns","Premium EAF Charges"],
+    properties:{"Thickness":"≥¼\" (6 mm)","Piece Size":"≤36\" × ≤18\"","Residuals (Cu+Sn)":"< 0.20%","Typical C":"0.10–0.35%"},
+    grades:"ISRI Grade 200/201. Equivalent to EU E1/E2 grades. Traded regionally and on LME. Commands premium pricing reflecting low residual content.",
+    millRole:"Primary charge for EAF mills making drawing-quality automotive steels and quality flat products. Preferred when strict Cu, Sn, and Ni limits apply.",
+    studentNote:"HMS #1 is the 'clean cut' of the scrap world — thick, heavy steel with minimal contamination. Mills pay top dollar because it doesn't pollute the chemistry of expensive steel grades.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Allegheny_Ludlum_Steel_Corp_Scrap_Piles.jpg/330px-Allegheny_Ludlum_Steel_Corp_Scrap_Piles.jpg" },
+
+  { id:"shredded", symbol:"SHRD", name:"Shredded Scrap", subtitle:"Auto-Shredder Fragmented Steel", type:"scrap",
+    desc:"Whole automobiles, appliances, and light steel passed through a high-power hammer mill. Output is fist-sized (2–8\") chunks after magnetic separation from non-ferrous material and plastic. Very high bulk density and consistent sizing — ideal for automated bucket charging.",
+    uses:["High-Volume EAF Charging","Rebar & Merchant Bar","Structural Products","Auto Recycling Loop"],
+    properties:{"Piece Size":"2\"–8\" nominal","Bulk Density":"95–130 lb/ft³","Cu Content":"0.15–0.30%","Yield":"~95% Fe"},
+    grades:"ISRI Grade 211/212. The most common scrap grade by volume globally. Elevated copper and tin from wiring limit use in the most demanding flat-rolled products.",
+    millRole:"The workhorse EAF charge material worldwide. Consistent sizing enables automated charging. Cu content makes it suitable for long products and structural steel but not exposed-quality automotive sheet.",
+    studentNote:"Every scrapped car starts here — a shredder the size of a building tears the whole vehicle apart in seconds, magnets pull out the steel, and it's ready for the furnace. This is the foundation of the circular steel economy.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Car_scrapyard_-_geograph.org.uk_-_6700437.jpg/330px-Car_scrapyard_-_geograph.org.uk_-_6700437.jpg" },
+
+  { id:"busheling", symbol:"BSH", name:"Busheling", subtitle:"Factory-New Steel Clips", type:"scrap",
+    desc:"Clean, uncoated steel stampings, clippings, and punchings from automotive and appliance stamping plants. Essentially the same steel as the original sheet — ultra-low residuals, no weathering, no contamination. The cleanest and most valuable ferrous scrap grade.",
+    uses:["AHSS & UHSS Production","Automotive Deep-Draw Sheet","High-Quality Flat Products","Premium EAF Charges"],
+    properties:{"Origin":"Stamping plant offcuts","Residuals (Cu+Sn)":"< 0.08%","Max Piece Size":"12\" × 12\"","Bulk Density":"15–35 lb/ft³"},
+    grades:"ISRI Grade 205. Also called No. 1 Factory Bundles. Commands the highest price of any ferrous scrap. Often sold direct from OEM stamping plants to mills under long-term contracts.",
+    millRole:"Preferred charge for EAF mills producing high-strength automotive sheet where tramp element limits are extreme (Cu < 0.06%). Low bulk density requires careful charging to avoid arc splash.",
+    studentNote:"Busheling is brand-new steel clipped off the stamping line — it never left the factory. That's why it's so pure, and why mills pay a premium: they're buying a pre-alloyed, uncontaminated feedstock.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CompactedSteelScraps.jpg/330px-CompactedSteelScraps.jpg" },
+
+  { id:"plate-structural", symbol:"P&S", name:"Plate & Structural", subtitle:"Heavy Fabrication Scrap", type:"scrap",
+    desc:"Clean steel plate, I-beams, angles, channels, and large structural shapes from fabrication shops, ship-breaking, and demolition. Thicker than HMS #2 but must be torch-cut to furnace-compatible lengths. High yield and well-defined chemistry.",
+    uses:["EAF Long & Flat Products","Structural Steel Recycling","Heavy Section Mills","Rail Product Charges"],
+    properties:{"Thickness":">3/16\"","Piece Size":"Cut to ≤60\"","Residuals":"Low","Typical Source":"Ship-breaking, fab shops"},
+    grades:"ISRI Grade 233/234. Ship-breaking scrap may carry higher Mn and C from offshore structural grades. Cut quality critical — torch-cut ends must be free of slag and excessive oxidation.",
+    millRole:"Widely used in structural, rail, and plate-product EAFs where higher carbon and manganese are acceptable. Dense, defined chemistry makes it easier to hit target heats than mixed grades.",
+    studentNote:"When a ship is scrapped or a bridge is demolished, most of that steel becomes plate & structural scrap. It re-enters the supply chain and can become a new building or vessel within months.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Scrap_yard_1_%283360886332%29.jpg/330px-Scrap_yard_1_%283360886332%29.jpg" },
+
+  { id:"dri-hbi", symbol:"DRI", name:"DRI / HBI", subtitle:"Direct Reduced Iron", type:"scrap",
+    desc:"Iron ore reduced to metallic iron without melting — no blast furnace required. DRI (sponge iron) is porous and reactive; HBI (hot briquetted iron) is dense and stable for ocean shipping. Contains 90–96% iron with near-zero tramp elements. Not technically scrap, but substitutes for it as a virgin EAF charge material.",
+    uses:["Tramp-Element Dilution","Quality Flat Products","EAF Virgin Iron Input","AHSS & Electrical Steel"],
+    properties:{"Metallization":"≥92% Fe⁰","Total Iron":"90–96%","Carbon":"0.1–4%","Residuals (Cu+Sn)":"< 0.01%"},
+    grades:"MIDREX and HYL/Energiron are dominant processes. HBI: 5–6 kg briquettes, stable for shipping. DRI: loose pellets, must be charged carefully to avoid reoxidation. Traded in USD/dmt.",
+    millRole:"Added at 10–40% of EAF charge when scrap residuals exceed limits for quality grades. Essential for producing automotive body sheet, electrical steel, and stainless via the EAF route.",
+    studentNote:"DRI lets an EAF mill make steel as clean as a blast furnace route — without the blast furnace. Adding 20% DRI to a scrap charge dilutes copper and tin to levels acceptable for the most demanding automotive grades.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Hot-briquetted_iron.JPG/330px-Hot-briquetted_iron.JPG" },
+
+  { id:"turnings", symbol:"TURN", name:"Turnings & Borings", subtitle:"Machining Swarf & Chips", type:"scrap",
+    desc:"Spiral chips, short turnings, and loose borings from lathe, milling, and drilling operations. High surface area promotes rapid oxidation and traps cutting oils. Must be centrifuged and dried before EAF charging. Lowest metal yield of any ferrous scrap grade.",
+    uses:["EAF Charge (Low Tier)","Briquetted Charge Supplement","Foundry Cold Charges","Low-Grade Recycling"],
+    properties:{"Metal Yield":"70–85%","Oil Content":"2–8% (must remove)","Piece Size":"Loose chips","Residuals":"Varies by source alloy"},
+    grades:"ISRI Grade 244/246. Best practice: centrifuge to <2% oil, then briquette into dense pucks. Carbon and alloy content vary widely depending on the source alloy being machined.",
+    millRole:"Lowest-value ferrous scrap. Used sparingly. Briquetted turnings preferred over loose material. High surface area causes oxidation losses and increases slag volume in the EAF.",
+    studentNote:"Every piece of steel machined into a precision part generates a pile of chips. Those chips are worth money — but less than bulk scrap, because of the oils and the effort to process them before they can be safely charged.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/SwarfSamples.jpg/330px-SwarfSamples.jpg" },
 ];
 
 const ALL_METALS = [...FERROUS, ...NONFERROUS, ...COPPER_ALLOYS];
@@ -887,6 +948,14 @@ export default function MetalogyApp() {
     return true;
   });
 
+  const displayScrap = SCRAP.filter(m => {
+    if (search) {
+      const s = search.toLowerCase();
+      return m.name.toLowerCase().includes(s) || m.uses.join(" ").toLowerCase().includes(s) || m.subtitle.toLowerCase().includes(s);
+    }
+    return true;
+  });
+
   const metalA = ALL_METALS.find(m => m.id === compareA);
   const metalB = ALL_METALS.find(m => m.id === compareB);
   const activeStep = MILL_STEPS.find(s => s.id === millStep);
@@ -942,7 +1011,7 @@ export default function MetalogyApp() {
               Know Your <span style={{ color:"var(--or)" }}>Metals</span>
             </h1>
             <p style={{ color:"var(--mu)", maxWidth:460, margin:"0 auto 1.3rem", fontSize:".92rem", lineHeight:1.6, fontWeight:300 }}>
-              26 metals — ferrous, non-ferrous, and copper alloys — with names, properties, grades, microstructures, and steel mill applications.
+              26 metals and 6 scrap grades — ferrous, non-ferrous, copper alloys, and recycled feedstocks — with properties, grades, and steel mill applications.
             </p>
             <div style={{ display:"flex", justifyContent:"center", gap:"1.8rem", flexWrap:"wrap" }}>
               {[
@@ -950,6 +1019,7 @@ export default function MetalogyApp() {
                 { n:FERROUS.length, l:"Ferrous" },
                 { n:NONFERROUS.length, l:"Non-Ferrous" },
                 { n:COPPER_ALLOYS.length, l:"Cu-Alloys" },
+                { n:SCRAP.length, l:"Scrap Grades" },
                 { n:progress.studied.length, l:"Studied" },
               ].map(s => (
                 <div key={s.l} style={{ textAlign:"center" }}>
@@ -968,6 +1038,7 @@ export default function MetalogyApp() {
                 { id:"ferrous", label:"Ferrous" },
                 { id:"nonferrous", label:"Non-Ferrous" },
                 { id:"copper_alloy", label:"Copper Alloys" },
+                { id:"scrap", label:"♻ Scrap" },
               ].map(f => (
                 <button key={f.id} className={`fbtn${filter===f.id?" active":""}`} onClick={() => setFilter(f.id)}>{f.label}</button>
               ))}
@@ -996,6 +1067,15 @@ export default function MetalogyApp() {
             <div className="sh"><span className="stag tcp">Copper Alloys</span><span className="stitle">Copper-Based Alloys</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>Cu-Base Engineering Alloys</span></div>
             <div className="grid">
               {displayMetals.filter(m=>m.type==="copper_alloy").map(m => (
+                <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
+              ))}
+            </div>
+          </>}
+
+          {(filter==="all"||filter==="scrap") && displayScrap.length > 0 && <>
+            <div className="sh"><span className="stag tsc">Scrap</span><span className="stitle">Recycled Feedstocks</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>EAF Charge Materials</span></div>
+            <div className="grid">
+              {displayScrap.map(m => (
                 <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
               ))}
             </div>
@@ -1391,19 +1471,21 @@ function MetalCard({ metal, expanded, onToggle, level, studied }) {
       {studied && <div className="studied-dot">✓</div>}
       <div className="ctop">
         <span className="msym">{metal.symbol}</span>
-        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type}</span>
+        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":metal.type==="scrap"?"tsc":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type}</span>
       </div>
       <div className="mname">{metal.name}</div>
       <div className="msub">{metal.subtitle}</div>
       <div className="mdesc">{level==="student" ? (metal.studentNote || metal.desc) : metal.desc}</div>
       <div className="ulist">{metal.uses.slice(0, 4).map(u => <span key={u} className="uchip">{u}</span>)}</div>
       <button className="xbtn" onClick={() => onToggle(metal.id)}>
-        {expanded ? "▲ Collapse" : "▼ Microstructure, Properties, Grades & Mill Role"}
+        {expanded ? "▲ Collapse" : metal.micro ? "▼ Microstructure, Properties, Grades & Mill Role" : "▼ Properties, Grades & Mill Role"}
       </button>
       {expanded && (
         <div className="det">
-          <h4>Microstructure Visualization</h4>
-          <MicrostructureSVG metalId={metal.id} width={260} height={105} />
+          {metal.micro && <>
+            <h4>Microstructure Visualization</h4>
+            <MicrostructureSVG metalId={metal.id} width={260} height={105} />
+          </>}
 
           <h4>Physical Properties</h4>
           <div className="pgrid">
