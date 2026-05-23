@@ -10,8 +10,8 @@ function initP() { return { quizHistory:[], studied:[], totalCorrect:0, totalAtt
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap');
 :root {
-  --bg:#0a0a0a; --s1:#263e2a; --s2:#2e4a32; --s3:#36563c; --bd:#4a6450;
-  --or:#f07820; --am:#f0a820; --st:#8aa89a; --tx:#d8e8dc; --mu:#607868;
+  --bg:#0a0a0a; --s1:#263e2a; --s2:#2e4a32; --s3:#36563c; --bd:#506858;
+  --or:#f07820; --am:#f0a820; --st:#a8c8b4; --tx:#e4f0e8; --mu:#8aab97;
   --fe:#e05c30; --nf:#20a8d0; --ml:#a060d0; --gn:#40c870; --rd:#e04040; --cp:#b87333;
   --shadow-sm:0 2px 10px rgba(0,0,0,.5);
   --shadow-md:0 4px 24px rgba(0,0,0,.6);
@@ -68,21 +68,21 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .mcard.ferrous .msym{color:var(--fe);text-shadow:0 0 18px rgba(224,92,48,.3);}
 .mcard.nonferrous .msym{color:var(--nf);text-shadow:0 0 18px rgba(32,168,208,.3);}
 .mcard.copper_alloy .msym{color:var(--cp);text-shadow:0 0 18px rgba(184,115,51,.3);}
-.cbadge{font-family:'Share Tech Mono',monospace;font-size:.56rem;letter-spacing:.1em;padding:2px 8px;border-radius:20px;text-transform:uppercase;font-weight:700;}
+.cbadge{font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:.1em;padding:2px 8px;border-radius:20px;text-transform:uppercase;font-weight:700;}
 .mname{font-family:'Rajdhani',sans-serif;font-size:1.08rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.15rem;}
-.msub{font-size:.73rem;color:var(--mu);font-weight:300;margin-bottom:.65rem;}
-.mdesc{font-size:.83rem;color:#96acc0;line-height:1.56;margin-bottom:.7rem;}
+.msub{font-size:.77rem;color:var(--st);font-weight:400;margin-bottom:.65rem;}
+.mdesc{font-size:.88rem;color:#c4d8dc;line-height:1.6;margin-bottom:.7rem;}
 .ulist{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.7rem;}
-.uchip{font-size:.67rem;padding:3px 9px;border-radius:20px;background:rgba(143,160,184,.07);color:var(--st);border:1px solid rgba(143,160,184,.14);font-weight:500;transition:all .15s;}
+.uchip{font-size:.72rem;padding:3px 10px;border-radius:20px;background:rgba(168,200,180,.08);color:var(--st);border:1px solid rgba(168,200,180,.22);font-weight:500;transition:all .15s;}
 .xbtn{width:100%;padding:7px;background:transparent;border:1px solid rgba(240,120,32,.2);border-radius:8px;color:var(--or);font-family:'Rajdhani',sans-serif;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s;font-weight:600;}
 .xbtn:hover{background:rgba(240,120,32,.09);border-color:rgba(240,120,32,.4);box-shadow:0 0 14px rgba(240,120,32,.1);}
-.det{margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(37,43,59,.55);}
-.det h4{font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:.45rem;opacity:.85;}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.65rem;}
-.pi{background:linear-gradient(135deg,rgba(10,22,12,.45),rgba(20,38,22,.55));border:1px solid rgba(52,76,54,.5);border-radius:6px;padding:6px 10px;}
-.plabel{font-size:.59rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;}
-.pval{font-size:.82rem;color:var(--tx);font-weight:500;margin-top:2px;}
-.ginfo{font-size:.79rem;color:#96bca0;line-height:1.56;background:rgba(10,22,12,.32);border-left:2px solid var(--or);padding:7px 11px;border-radius:0 6px 6px 0;margin-bottom:.5rem;box-shadow:-3px 0 10px rgba(240,120,32,.07);}
+.det{margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(80,104,88,.4);}
+.det h4{font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:.45rem;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-bottom:.7rem;}
+.pi{background:rgba(0,0,0,.28);border:1px solid rgba(80,104,88,.55);border-radius:7px;padding:8px 11px;}
+.plabel{font-size:.65rem;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;margin-bottom:2px;}
+.pval{font-size:.88rem;color:var(--tx);font-weight:500;margin-top:2px;}
+.ginfo{font-size:.84rem;color:#c4dcc8;line-height:1.6;background:rgba(0,0,0,.25);border-left:3px solid var(--or);padding:9px 13px;border-radius:0 7px 7px 0;margin-bottom:.55rem;box-shadow:-3px 0 12px rgba(240,120,32,.09);}
 .studied-dot{position:absolute;top:10px;right:10px;width:20px;height:20px;background:var(--gn);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;box-shadow:0 0 12px rgba(64,200,112,.5);}
 
 /* MICROSTRUCTURE */
@@ -107,13 +107,13 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .msn{font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx);}
 .mst{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--ml);margin-top:2px;}
 .mdc{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid rgba(160,96,208,.28);border-radius:12px;padding:1.3rem;margin-bottom:1.4rem;box-shadow:0 0 28px rgba(160,96,208,.07),var(--shadow-sm);}
-.mdc h3{font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ml);margin-bottom:.65rem;text-shadow:0 0 20px rgba(160,96,208,.35);}
-.mdc p{font-size:.85rem;color:#96acc0;line-height:1.6;margin-bottom:.6rem;}
-.atable{width:100%;border-collapse:collapse;font-size:.82rem;}
-.atable th{font-family:'Share Tech Mono',monospace;font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left;}
-.atable td{padding:9px 10px;border-bottom:1px solid rgba(37,43,59,.45);color:var(--tx);}
-.atable tr:hover td{background:rgba(240,120,32,.04);}
-.echip{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.65rem;padding:2px 6px;background:rgba(240,168,32,.11);color:var(--am);border-radius:4px;margin-right:3px;}
+.mdc h3{font-family:'Rajdhani',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ml);margin-bottom:.7rem;text-shadow:0 0 20px rgba(160,96,208,.35);}
+.mdc p{font-size:.88rem;color:#c4d4dc;line-height:1.65;margin-bottom:.65rem;}
+.atable{width:100%;border-collapse:collapse;font-size:.85rem;}
+.atable th{font-family:'Share Tech Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:10px 12px;border-bottom:1px solid var(--bd);text-align:left;}
+.atable td{padding:10px 12px;border-bottom:1px solid rgba(80,104,88,.3);color:var(--tx);}
+.atable tr:hover td{background:rgba(240,120,32,.05);}
+.echip{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:2px 7px;background:rgba(240,168,32,.13);color:var(--am);border-radius:4px;margin-right:3px;}
 
 /* LADLE CALCULATOR */
 .calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
@@ -154,7 +154,7 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .qpfill{height:100%;background:linear-gradient(90deg,var(--fe),var(--or));transition:width .35s;border-radius:3px;}
 .qptxt{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--mu);white-space:nowrap;}
 .qcard{background:linear-gradient(150deg,var(--s1),var(--s2));border:1px solid var(--bd);border-radius:12px;padding:1.8rem;margin-bottom:1.2rem;box-shadow:var(--shadow-md);}
-.qcat{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;opacity:.75;}
+.qcat{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--or);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;}
 .qq{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:600;letter-spacing:.03em;line-height:1.35;margin-bottom:1.35rem;}
 .qopts{display:grid;gap:.5rem;}
 .qopt{padding:12px 16px;background:rgba(10,24,12,.3);border:1px solid rgba(52,76,54,.55);border-radius:8px;color:var(--tx);font-family:'Barlow',sans-serif;font-size:.88rem;cursor:pointer;text-align:left;transition:all .18s;font-weight:400;}
