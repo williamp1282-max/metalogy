@@ -64,6 +64,11 @@ body{background:var(--bg);color:var(--tx);font-family:'Barlow',sans-serif;min-he
 .mcard.scrap:hover{border-color:rgba(78,120,64,.35);box-shadow:0 6px 24px rgba(78,120,64,.10),var(--shadow-md);background:var(--s2);}
 .mcard.scrap .msym{color:var(--sc);}
 .mcard.scrap.exp{border-color:rgba(78,120,64,.45);}
+.mcard.nonconforming::before{background:linear-gradient(90deg,var(--rd) 0%,rgba(200,48,48,0) 75%);}
+.mcard.nonconforming:hover{border-color:rgba(200,48,48,.35);box-shadow:0 6px 24px rgba(200,48,48,.12),var(--shadow-md);background:rgba(200,48,48,.025);}
+.mcard.nonconforming .msym{color:var(--rd);}
+.mcard.nonconforming.exp{border-color:rgba(200,48,48,.45);}
+.tnc{background:rgba(200,48,48,.09);color:var(--rd);border:1px solid rgba(200,48,48,.3);}
 .mcard.exp{border-color:rgba(217,108,12,.45);box-shadow:0 0 0 1px rgba(217,108,12,.10),var(--shadow-md);}
 .ctop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;}
 .msym{font-family:'Share Tech Mono',monospace;font-size:1.5rem;font-weight:700;line-height:1;}
@@ -519,6 +524,62 @@ const SCRAP = [
     millRole:"Lowest-value ferrous scrap. Used sparingly. Briquetted turnings preferred over loose material. High surface area causes oxidation losses and increases slag volume in the EAF.",
     studentNote:"Every piece of steel machined into a precision part generates a pile of chips. Those chips are worth money — but less than bulk scrap, because of the oils and the effort to process them before they can be safely charged.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/SwarfSamples.jpg/330px-SwarfSamples.jpg" },
+];
+
+const NONCONF_SCRAP = [
+  { id:"oversized", symbol:"OVS", name:"Oversized Scrap", subtitle:"Exceeds Charge Bucket Dimensions", type:"nonconforming",
+    desc:"Steel sections that exceed the dimensional limits of the purchase spec — typically >36\" in any direction for a standard EAF charge bucket. The furnace roof must be opened and the bucket tipped to drop charge, so pieces too long bridge the opening and jam inside, preventing a clean drop.",
+    uses:["Bucket Bridging — Scrap Won't Drop","Electrode Collision Risk","Extended Heat Time","Torch-Cut at Extra Cost"],
+    properties:{"ISRI 200 Limit":"≤36\" × ≤18\"","Typical Oversize":"Beams, rails, plate >3m","Processing Cost":"$10–30/t surcharge","Detection":"Gate inspection + magnet crane"},
+    grades:"ISRI Grade 200 (HMS #1) specifies ≤36\" × ≤18\". Oversized is either returned to supplier, accepted at a price discount, or torch-cut by the yard. Some integrated mills have on-site shears for light-gauge oversized; heavy structural requires oxy-fuel.",
+    millRole:"An oversized piece bridging a charge bucket delays tapping, risks electrode collision when the roof closes, and can cause arc instability. In worst cases, a single stuck piece causes a 30–60 min heat delay — thousands of dollars in productivity loss.",
+    studentNote:"A charge bucket works like a clam-shell bottom trash can — open the jaws and the scrap falls into the furnace. If one beam is too long, it spans the opening like a tightrope walker and nothing else can fall through. The crane operator has to manually intervene.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/House_at_Gilmour_RD_being_demolished_b.jpg/330px-House_at_Gilmour_RD_being_demolished_b.jpg" },
+
+  { id:"organic-contamination", symbol:"ORG", name:"Organic Contamination", subtitle:"Non-Metallic Combustible Attachments", type:"nonconforming",
+    desc:"Scrap carrying rubber, plastic, wood, fabric, insulation, or other combustible non-metallics beyond specification limits (typically <1% by weight). These combust in the EAF at 1600°C, generating toxic fume (dioxins, furans, HCl from PVC), overloading off-gas handling, and disturbing slag chemistry.",
+    uses:["Dioxin/Furan Emissions Exceedance","Off-Gas System Overload","Slag Foaming Disruption","Permit Violation Risk"],
+    properties:{"Typical Limit":"<1% non-metallics by weight","Main Sources":"Cars, industrial machinery","Fume Type":"Dioxins, furans, HCl, VOCs","Detection":"Visual + piece-weight check"},
+    grades:"Certified shredder output (ISRI 211) typically meets non-metallic limits after separation. Whole car bodies with engines, rubber-mounted industrial scrap, and cable bundles are common violations. Some mills require certifications from shredders.",
+    millRole:"PVC combustion introduces chlorine that attacks graphite electrodes and lining. Hydrogen from organics causes porosity in solidified steel. Fume load exceeds the bag house capacity, risking emission permit exceedances with regulatory consequences. Slag chemistry is disturbed by uncontrolled carbon input.",
+    studentNote:"A car still has rubber seals, coolant, power steering fluid, and plastic dashboards. Even shredded, some organic material survives. If a batch comes in with intact rubber-wrapped engine blocks, the EAF combusts it all — generating smoke the off-gas system wasn't designed to handle.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Car_scrapyard_at_Cleveland_Street%2C_Birkenhead_%282%29.JPG/330px-Car_scrapyard_at_Cleveland_Street%2C_Birkenhead_%282%29.JPG" },
+
+  { id:"wet-oily", symbol:"W/O", name:"Wet / Oily Scrap", subtitle:"Moisture & Hydrocarbon Contamination", type:"nonconforming",
+    desc:"Scrap carrying free water, ice pockets, or excessive cutting oil and hydraulic fluid. Water in a liquid-steel charge flash-vaporizes with ~1700× volume expansion, creating steam explosions that eject molten steel. Oil upsets carbon control and generates smoke. Both are rejected as 'not dry' under ISRI specs.",
+    uses:["Steam Explosion (Safety Critical)","Carbon Balance Disruption","Excessive Fume & Smoke","Hydrogen Pickup in Steel"],
+    properties:{"Water Limit":"Zero free water — bone dry","Oil Limit":"<1–2% for turnings","Winter Risk":"Ice pockets in hollow sections","Detection":"Visual, tilt-drain, winter protocol"},
+    grades:"All ISRI grades specify dry scrap. Turnings (ISRI 244) must be centrifuged to <2% oil. Hollow sections (pipes, tubes) are drained and inspected in winter for ice. Some modern EAF preheating shafts can evaporate residual moisture safely; most furnaces cannot.",
+    millRole:"Water entering a 1650°C heat is a serious safety incident — flash steam can blow molten steel out of the furnace, injuring or killing operators. Even small amounts of oil disrupt the carbon injection system and exceed off-gas VOC limits. Scrap with free water is immediately quarantined.",
+    studentNote:"Pouring even a cup of water into a deep fryer causes a violent reaction. Scale that up to a pocket of ice in a 150-ton liquid steel heat at 1650°C — the steam explosion can blow molten steel 10 meters. This is why scrap inspectors take moisture very seriously, especially in winter.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Rust_on_iron.jpg/330px-Rust_on_iron.jpg" },
+
+  { id:"radioactive", symbol:"RAM", name:"Radioactive Material", subtitle:"Orphan Source Contamination", type:"nonconforming",
+    desc:"Sealed radioactive sources — from industrial gauges, medical devices, or research equipment — accidentally mixed into scrap. Once melted, the isotope (Co-60, Cs-137, Ra-226, Am-241) distributes throughout the entire heat and bag house dust, condemning all outputs. The famous 1987 Goiânia, Brazil incident (Cs-137) set the standard for industry-wide portal monitor deployment.",
+    uses:["Entire Heat Condemned (~150 t)","Furnace Decontamination Required","Bag House Dust = Radioactive Waste","$10M+ Remediation Cost"],
+    properties:{"Common Isotopes":"Co-60, Cs-137, Ra-226","Detection":"Portal Radiation Monitors (PRMs)","Response":"Immediate quarantine + HP survey","Historic Event":"Goiânia 1987 — 4 deaths, 249 contaminated"},
+    grades:"All scrap yards and mill intake points in developed countries now run PRMs. Trucks drive through the portal at walking speed. Alarm triggers mandatory quarantine and survey by a health physics team before any processing. False alarms (medical patients, natural radioactivity) are common and must be adjudicated.",
+    millRole:"A single orphan source melted in contaminates the entire heat, all furnace refractory, the off-gas duct, and the bag house dust — which becomes regulated radioactive waste. The furnace is taken offline for full decontamination. One European steel mill event in 1998 cost over $20M and a multi-week production shutdown.",
+    studentNote:"In 1987 in Goiânia, Brazil, scrap dealers broke open an abandoned cancer treatment machine and found a glowing blue Cs-137 capsule. Thinking it was magical, they passed it around — ultimately causing 4 deaths and 249 radiation injuries. That incident made portal radiation monitoring standard at every scrap yard and steel mill worldwide.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/02010019_radioactive_cesium_source_Goi%C3%A2nia_accident.jpg/330px-02010019_radioactive_cesium_source_Goi%C3%A2nia_accident.jpg" },
+
+  { id:"tramp-alloy", symbol:"TA", name:"Tramp Alloy", subtitle:"Hidden High-Alloy or Stainless Steel", type:"nonconforming",
+    desc:"Stainless steel, tool steel, high-speed steel, or other high-alloy steel pieces mixed into a carbon-steel scrap charge. These carry elevated Cr, Ni, Mo, Co, or W that spike heat chemistry unpredictably. A single 500 kg stainless tank in a 150-ton carbon-steel heat adds approximately 0.05–0.08% Cr — potentially pushing it above specification.",
+    uses:["Unexpected Cr/Ni Chemistry Spike","Heat Downgraded or Scrapped","Costly Reprocessing in AOD","Specification Non-Conformance"],
+    properties:{"Common Source":"Stainless steel vessels, tool steel dies","Key Contaminants":"Cr, Ni, Mo, Co, W","Detection":"XRF gun, visual sorting","Impact":"0.5t SS in 150t heat ≈ +0.05% Cr"},
+    grades:"Premium scrap is inspected visually and by XRF (X-ray fluorescence) for stainless and high-alloy pieces. Magnets don't distinguish ferritic stainless from carbon steel. Alloy-dense scrap streams (industrial demolition, aerospace MRO) require 100% XRF screening.",
+    millRole:"An unexpected Cr spike can push a heat outside specification for ASTM A36 or automotive sheet. Options: downgrade and re-route to a compatible grade, process in an AOD (expensive), or in extreme cases scrap the heat. Ni, Co, and W cannot be removed by any economical means once dissolved.",
+    studentNote:"Imagine making plain oatmeal and accidentally adding a handful of mixed spices — you can't remove them. Stainless steel in a carbon steel heat adds chromium and nickel that the EAF can't remove. The same XRF gun used in airport security can identify the alloy content of a scrap piece in seconds.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Alloy_and_metal_samples_-_Beryllium-Copper%2C_Inconel%2C_Steel%2C_Titanium%2C_Aluminum%2C_Magnesium.jpg/330px-Alloy_and_metal_samples_-_Beryllium-Copper%2C_Inconel%2C_Steel%2C_Titanium%2C_Aluminum%2C_Magnesium.jpg" },
+
+  { id:"excessive-coating", symbol:"EXC", name:"Excessive Coating", subtitle:"Heavy Zinc, Paint, or Chrome Plate", type:"nonconforming",
+    desc:"Scrap carrying coating weights above specification — thick galvanizing, multiple layers of lead-based paint, heavy chrome plating, or cadmium-plated hardware. Even moderate zinc levels build up zincite rings inside the EAF shell. Lead and cadmium vaporize into fume and condemn bag house dust as RCRA hazardous waste.",
+    uses:["Zincite Buildup on EAF Shell","Hazardous Bag House Dust (Pb, Cd)","Refractory Damage","Toxic Fume Emissions"],
+    properties:{"Zinc Limit":"Typically <500 g/t scrap","Lead Concern":"RCRA hazardous above threshold","Chromium Plate":"Raises Cr in heat","Detection":"Visual, XRF, loss-on-ignition"},
+    grades:"Lightly galvanized auto scrap is acceptable in controlled quantities — zinc is captured in bag house dust and sold as zinc oxide (GoZinc). Heavy bridge guardrail galvanizing, thick industrial Zn coatings, and any Pb or Cd-containing coatings are rejected or subject to strict quantity limits.",
+    millRole:"Zinc vapor (bp 907°C) exits liquid steel and condenses in the cooler EAF shell wall above the bath, forming hard zincite (ZnO) rings that reduce vessel volume and cause shell distortion over time. Lead in fume creates RCRA hazardous dust requiring expensive landfill disposal. Cadmium has strict OSHA air limits.",
+    studentNote:"A little zinc is fine — it boils off, the bag house catches it, and tire companies buy the zinc oxide. But a truckload of old galvanized bridge guardrail (with heavy coating) deposits enough zinc in the furnace to build up rings inside the shell over time, eventually requiring an expensive cleanout.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Galvanized_surface.jpg/330px-Galvanized_surface.jpg" },
 ];
 
 const HEAT_TREAT = [
@@ -1000,7 +1061,7 @@ export default function MetalogyApp() {
 
   const filteredQuizPool = useMemo(() => {
     return QUIZ_POOL.filter(q => {
-      const metalObj = [...ALL_METALS, ...SCRAP].find(m => m.id === q.metal);
+      const metalObj = [...ALL_METALS, ...SCRAP, ...NONCONF_SCRAP].find(m => m.id === q.metal);
       const matchesType = quizMetalFilter === "all"
         || (metalObj && metalObj.type === quizMetalFilter)
         || (quizMetalFilter === "scrap" && metalObj && metalObj.type === "scrap");
@@ -1088,8 +1149,16 @@ export default function MetalogyApp() {
     return true;
   });
 
-  const metalA = [...ALL_METALS, ...SCRAP].find(m => m.id === compareA);
-  const metalB = [...ALL_METALS, ...SCRAP].find(m => m.id === compareB);
+  const displayNonconf = NONCONF_SCRAP.filter(m => {
+    if (search) {
+      const s = search.toLowerCase();
+      return m.name.toLowerCase().includes(s) || m.uses.join(" ").toLowerCase().includes(s) || m.subtitle.toLowerCase().includes(s);
+    }
+    return true;
+  });
+
+  const metalA = [...ALL_METALS, ...SCRAP, ...NONCONF_SCRAP].find(m => m.id === compareA);
+  const metalB = [...ALL_METALS, ...SCRAP, ...NONCONF_SCRAP].find(m => m.id === compareB);
   const activeStep = MILL_STEPS.find(s => s.id === millStep);
 
   const overallPct = progress.totalAttempted > 0 ? Math.round((progress.totalCorrect / progress.totalAttempted) * 100) : 0;
@@ -1173,6 +1242,7 @@ export default function MetalogyApp() {
                 { id:"nonferrous", label:"Non-Ferrous" },
                 { id:"copper_alloy", label:"Copper Alloys" },
                 { id:"scrap", label:"♻ Scrap" },
+                { id:"nonconforming", label:"⚠ Nonconf" },
               ].map(f => (
                 <button key={f.id} className={`fbtn${filter===f.id?" active":""}`} onClick={() => setFilter(f.id)}>{f.label}</button>
               ))}
@@ -1210,6 +1280,15 @@ export default function MetalogyApp() {
             <div className="sh"><span className="stag tsc">Scrap</span><span className="stitle">Recycled Feedstocks</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>EAF Charge Materials</span></div>
             <div className="grid">
               {displayScrap.map(m => (
+                <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
+              ))}
+            </div>
+          </>}
+
+          {(filter==="all"||filter==="nonconforming") && displayNonconf.length > 0 && <>
+            <div className="sh"><span className="stag tnc">Nonconforming</span><span className="stitle">Rejection Categories</span><span style={{ color:"var(--mu)", fontSize:".77rem", marginLeft:"auto" }}>⚠ EAF Charge Hazards</span></div>
+            <div className="grid">
+              {displayNonconf.map(m => (
                 <MetalCard key={m.id} metal={m} expanded={expanded===m.id} onToggle={toggle} level={level} studied={progress.studied.includes(m.id)} />
               ))}
             </div>
@@ -1431,6 +1510,7 @@ export default function MetalogyApp() {
                   <optgroup label="── Non-Ferrous ──">{NONFERROUS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Copper Alloys ──">{COPPER_ALLOYS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                   <optgroup label="── Scrap Grades ──">{SCRAP.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
+                  <optgroup label="── Nonconforming ──">{NONCONF_SCRAP.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>
                 </select>
                 {panel && <>
                   <div className="crow"><span className="clabel">Type</span><span className="cval" style={{ color:panel.type==="ferrous"?"var(--fe)":panel.type==="copper_alloy"?"var(--cp)":"var(--nf)" }}>{panel.type==="copper_alloy"?"Cu-Alloy":panel.type}</span></div>
@@ -1458,8 +1538,8 @@ export default function MetalogyApp() {
               <div style={{ fontFamily:"'Rajdhani',sans-serif", fontSize:"1rem", fontWeight:600, letterSpacing:".08em", textTransform:"uppercase", color:"var(--am)", marginBottom:".8rem" }}>Key Differences</div>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:".6rem" }}>
                 {[
-                  { l:"Category", a:metalA.type==="ferrous"?"Ferrous":metalA.type==="copper_alloy"?"Cu-Alloy":metalA.type==="scrap"?"Scrap Feedstock":"Non-Ferrous", b:metalB.type==="ferrous"?"Ferrous":metalB.type==="copper_alloy"?"Cu-Alloy":metalB.type==="scrap"?"Scrap Feedstock":"Non-Ferrous" },
-                  { l:"Iron Content", a:metalA.type==="ferrous"||metalA.type==="scrap"?"Contains Iron":"No Iron", b:metalB.type==="ferrous"||metalB.type==="scrap"?"Contains Iron":"No Iron" },
+                  { l:"Category", a:metalA.type==="ferrous"?"Ferrous":metalA.type==="copper_alloy"?"Cu-Alloy":metalA.type==="scrap"?"Scrap Feedstock":metalA.type==="nonconforming"?"Nonconforming":"Non-Ferrous", b:metalB.type==="ferrous"?"Ferrous":metalB.type==="copper_alloy"?"Cu-Alloy":metalB.type==="scrap"?"Scrap Feedstock":metalB.type==="nonconforming"?"Nonconforming":"Non-Ferrous" },
+                  { l:"Iron Content", a:metalA.type==="ferrous"||metalA.type==="scrap"?"Contains Iron":metalA.type==="nonconforming"?"Varies / Unknown":"No Iron", b:metalB.type==="ferrous"||metalB.type==="scrap"?"Contains Iron":metalB.type==="nonconforming"?"Varies / Unknown":"No Iron" },
                   { l:"Density", a:metalA.properties["Density"]||"—", b:metalB.properties["Density"]||"—" },
                   { l:"Melting Point", a:metalA.properties["Melting Point"]||"—", b:metalB.properties["Melting Point"]||"—" },
                 ].map(row => (
@@ -1687,7 +1767,7 @@ function MetalCard({ metal, expanded, onToggle, level, studied }) {
       {studied && <div className="studied-dot">✓</div>}
       <div className="ctop">
         <span className="msym">{metal.symbol}</span>
-        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":metal.type==="scrap"?"tsc":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type}</span>
+        <span className={`cbadge ${metal.type==="ferrous"?"tfe":metal.type==="copper_alloy"?"tcp":metal.type==="scrap"?"tsc":metal.type==="nonconforming"?"tnc":"tnf"}`}>{metal.type==="copper_alloy"?"Cu-Alloy":metal.type==="nonconforming"?"Nonconf":metal.type}</span>
       </div>
       <div className="mname">{metal.name}</div>
       <div className="msub">{metal.subtitle}</div>
